@@ -303,18 +303,32 @@
 
   function renderHelp() {
     $('#panel').innerHTML = '<h2 class="sect">改完怎么发布</h2>' +
-      '<p class="hint">网站是纯静态文件，内容都存在 <code>assets/js/content.js</code> 里。所以「改内容」= 换掉这个文件。</p>' +
-      '<div class="tip"><b>三步走：</b><br>' +
-      '1. 在这里改好，点右上角「导出 content.js」，浏览器会下载一个文件。<br>' +
-      '2. 打开你的 GitHub 仓库，找到 <code>assets/js/content.js</code>，点右上角铅笔图标编辑，把整个文件内容换成刚下载的。<br>' +
-      '3. 提交（Commit changes）。Vercel 会自动重新部署，一两分钟后 xiang-bo.top 就是新的。' +
-      '</div>' +
+      '<p class="hint">网站是纯静态的，全站文字都存在 <code>assets/js/content.js</code> 这一个文件里。' +
+      '在这里改完、把这个文件换掉，就等于全站更新了。</p>' +
+
+      '<h2 class="sect" style="margin-top:30px">电脑上（推荐）</h2>' +
+      '<p class="hint" style="line-height:2">' +
+      '1. 点右上角「导出 content.js」，弹窗里点「<b>下载文件</b>」，会得到一个 content.js。<br>' +
+      '2. 打开 <a href="https://github.com/lxbgjx/xiang-bo-site/tree/main/assets/js" target="_blank" rel="noopener">github.com/lxbgjx/xiang-bo-site/tree/main/assets/js</a>（注意要进到 <code>assets/js</code> 这一层）。<br>' +
+      '3. 点右上角 <b>Add file → Upload files</b>，把下载的 content.js 拖进页面。<br>' +
+      '4. 页面下方写一句说明（比如「改首页标题」），点绿色的 <b>Commit changes</b>。<br>' +
+      '5. 等 1 分钟，刷新 xiang-bo.top 就是新的了。' +
+      '</p>' +
+
+      '<h2 class="sect" style="margin-top:30px">手机上</h2>' +
+      '<p class="hint" style="line-height:2">' +
+      '1. 点「导出 content.js」，弹窗里点「<b>复制全文</b>」。<br>' +
+      '2. 用浏览器打开 <a href="https://github.com/lxbgjx/xiang-bo-site/blob/main/assets/js/content.js" target="_blank" rel="noopener">content.js 这一页</a>，点右上角<b>铅笔图标</b>进入编辑。<br>' +
+      '3. 长按正文 → 全选 → 删掉，再粘贴刚才复制的内容。<br>' +
+      '4. 拉到底点 <b>Commit changes</b>，等 1 分钟。' +
+      '</p>' +
+
       '<h2 class="sect" style="margin-top:30px">几个注意</h2>' +
       '<p class="hint" style="line-height:2">' +
-      '· 「存到本机」只是把草稿存在当前浏览器里，方便你改到一半关掉下次接着改，<b>不会</b>更新线上。<br>' +
+      '· 上传时一定要在 <code>assets/js/</code> 目录里操作。传到根目录的话页面读不到，看着就像「没生效」。<br>' +
+      '· 「存到本机」只是把草稿存在当前浏览器里，方便改到一半关掉下次接着改，<b>不会</b>更新线上。<br>' +
       '· 换了电脑或清了浏览器缓存，草稿就没了，所以改完记得导出。<br>' +
-      '· 图片放在 <code>assets/img/</code>。想加新图，先把图片传到这个目录，它就会出现在「从图库选择」里。' +
-      '编辑器里选的图片路径是相对路径，不要填完整网址。<br>' +
+      '· 图片放在 <code>assets/img/</code>。想加新图，先把图片传进这个目录，它就会出现在「从图库选择」里。<br>' +
       '· 正文里可以用 <code>&lt;strong&gt;</code> 加粗、<code>&lt;a href=""&gt;</code> 加链接，其它标签会被原样显示。<br>' +
       '· 导出前可以先点「预览站点」看一眼。' +
       '</p>';
