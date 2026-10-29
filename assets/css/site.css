@@ -356,6 +356,31 @@ footer .fnote{font-size:14px;line-height:1.9;color:var(--ink-3);max-width:34em;m
   opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s var(--ease-out);}
 .cat:hover .go{opacity:1;transform:none;}
 
+/* 作品总览：分类目录（每类一行，左样图右文字，不用框线分隔） */
+.windex{display:block;margin-top:clamp(6px,1.2vw,18px);}
+.wrow{display:grid;grid-template-columns:minmax(0,clamp(210px,29vw,400px)) minmax(0,1fr);
+  gap:clamp(24px,4vw,58px);align-items:center;
+  padding:clamp(24px,3.2vw,44px) 0;color:inherit;}
+.wthumb{background:var(--paper-3);border-radius:2px;overflow:hidden;
+  aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;}
+.wthumb img{width:100%;height:100%;object-fit:contain;
+  transition:transform .85s cubic-bezier(.22,.61,.36,1);}
+.wrow:hover .wthumb img{transform:scale(1.045);}
+.wthumb .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.wmain{min-width:0;}
+.weyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  color:var(--muted);text-transform:uppercase;font-weight:600;}
+.wmain h2{font-family:var(--serif);font-size:clamp(21px,2.5vw,31px);font-weight:700;
+  line-height:1.25;margin:.42em 0 .5em;transition:color .35s;}
+.wrow:hover h2{color:var(--red);}
+.wmain p{margin:0 0 1.1em;font-size:14px;line-height:1.9;color:var(--ink-3);max-width:37em;}
+.wgo{font-size:11.5px;letter-spacing:.14em;color:var(--red);font-weight:600;}
+@media(max-width:720px){
+  .wrow{grid-template-columns:1fr;gap:16px;padding:26px 0;}
+  .wthumb{aspect-ratio:16/10;}
+  .wmain p{font-size:13.5px;}
+}
+
 /* 能力四宫格 */
 .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(20px,3vw,40px) clamp(24px,4vw,60px);}
 .skill{padding-top:2px;}

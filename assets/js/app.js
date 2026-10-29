@@ -158,7 +158,7 @@
               '<b>' + esc(H.kicker || '') + '</b><span class="rule"></span>' + esc(m.role || '') +
             '</span></div>' +
             '<h1 class="t-xl">' + titleHtml + '</h1>' +
-            '<p class="lead rv" style="--d:.3s">' + (H.lede || '') + '</p>' +
+            (H.lede ? '<p class="lead rv" style="--d:.3s">' + H.lede + '</p>' : '') +
             '<div class="hero-acts rv" style="--d:.4s">' +
               '<a class="btn" href="work.html">看作品 ' + ARROW + '</a>' +
               '<a class="btn ghost" href="about.html">关于我</a>' +
@@ -174,10 +174,10 @@
         '<div class="marquee"><div class="marquee-track">' + marq + marq + '</div></div>' +
       '</section>' +
 
-      /* 一句话履历 */
-      '<section class="record-sec">' +
+      /* 一句话履历（留空则整块不出） */
+      (S.record ? '<section class="record-sec">' +
         '<div class="wrap">' + recordHtml + '</div>' +
-      '</section>' +
+      '</section>' : '') +
 
       /* 引言 */
       '<section class="sec" style="padding-top:0">' +
@@ -240,25 +240,45 @@
   }
 
   /* ============================================================
-     列表页
+     作品总览页：只放分类目录，每类一个入口 + 一张样图
+     （不再把 19 个作品混排在一起，也不再重复一排分类按钮）
+     ============================================================ */
+  function renderWorkIndex() {
+    var total = (S.projects || []).length;
+    var rows = (S.categories || []).map(function (c, i) {
+      var items = (S.projects || []).filter(function (p) { return p.cat === c.key; });
+      var sample = items.filter(function (p) { return p.cover; })[0] || items[0];
+      return '<a class="wrow rv" style="--d:' + (i * 80) + 'ms" href="' + esc(c.file || 'work.html') + '">' +
+        '<div class="wthumb">' +
+          (sample ? coverImg(sample) : '<div class="ph"><span>' + esc(c.en || 'WORK') + '</span></div>') +
+        '</div>' +
+        '<div class="wmain">' +
+          '<span class="weyebrow">' + esc(c.en || 'WORK') + ' · ' + String(items.length).padStart(2, '0') + ' 项</span>' +
+          '<h2>' + esc(c.name) + '</h2>' +
+          (c.desc ? '<p>' + esc(c.desc) + '</p>' : '') +
+          '<span class="wgo">查看 →</span>' +
+        '</div></a>';
+    }).join('');
+
+    $('#main').innerHTML =
+      '<header class="phead"><div class="wrap">' +
+        '<span class="eyebrow rv"><b>WORK</b><span class="rule"></span>' + total + ' 项</span>' +
+        '<h1 class="t-xl rv" style="--d:.06s">做过的活，<br><em style="font-style:normal;color:var(--red)">都在这儿</em></h1>' +
+      '</div></header>' +
+      '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
+        '<div class="windex">' + rows + '</div>' +
+      '</div></section>';
+  }
+
+  /* ============================================================
+     列表页（单个分类）
      ============================================================ */
   function renderList() {
     var cat = document.body.getAttribute('data-cat') || '';
     var cur = null;
     (S.categories || []).forEach(function (c) { if (c.key === cat) cur = c; });
 
-    var counts = { all: (S.projects || []).length };
-    (S.categories || []).forEach(function (c) {
-      counts[c.key] = (S.projects || []).filter(function (p) { return p.cat === c.key; }).length;
-    });
-
-    // 板块之间是真实链接，能直接跳页、能新窗口打开，不靠 JS 切换
-    var tabsHtml =
-      '<a class="' + (!cat ? 'on' : '') + '" href="work.html">全部<i>' + counts.all + '</i></a>' +
-      (S.categories || []).map(function (c) {
-        return '<a class="' + (cat === c.key ? 'on' : '') + '" href="' + esc(c.file || '#') + '">' +
-          esc(c.name) + '<i>' + (counts[c.key] || 0) + '</i></a>';
-      }).join('');
+    if (!cur) { renderWorkIndex(S); return; }
 
     var list = (S.projects || []).filter(function (p) { return !cat || p.cat === cat; });
 
@@ -276,18 +296,15 @@
         '</div></a>';
     }).join('');
 
-    var heading = cur
-      ? allowBr(esc(cur.heading || cur.name))
-      : '做过的活，<br><em style="font-style:normal;color:var(--red)">都在这儿</em>';
-    var desc = cur ? esc(cur.desc || '') : esc(S.workIntro || '');
-    var eyebrow = cur ? esc(cur.en || 'WORK') : 'WORK';
+    var heading = allowBr(esc(cur.heading || cur.name));
+    var desc = esc(cur.desc || '');
+    var eyebrow = esc(cur.en || 'WORK');
 
     $('#main').innerHTML =
       '<header class="phead"><div class="wrap">' +
         '<span class="eyebrow rv"><b>' + eyebrow + '</b><span class="rule"></span>' + list.length + ' 项</span>' +
         '<h1 class="t-xl rv" style="--d:.06s">' + heading + '</h1>' +
-        '<p class="lead rv" style="--d:.12s">' + desc + '</p>' +
-        '<div class="filters rv" style="--d:.18s">' + tabsHtml + '</div>' +
+        (desc ? '<p class="lead rv" style="--d:.12s">' + desc + '</p>' : '') +
       '</div></header>' +
       '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
         '<div class="grid" id="grid">' + cards + '</div>' +
