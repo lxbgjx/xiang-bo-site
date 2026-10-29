@@ -111,20 +111,13 @@
   }
 
   function renderHome() {
-    var html = '<h2 class="sect">数字栏</h2>' +
-      '<p class="hint">首页四格数据。数字会滚动递增，单位跟在数字后面。</p>';
-    (DATA.stats || []).forEach(function (s, i) {
-      html += '<div class="card open"><div class="ch"><span class="k">' + (i + 1) + '</span>' +
-        '<span class="t">' + esc(s.label || '未命名') + '</span></div><div class="cb"><div class="row3">' +
-        numF('数字', 'stats.' + i + '.n', s.n) +
-        fld('单位/后缀', 'stats.' + i + '.suffix', s.suffix) +
-        fld('说明文字', 'stats.' + i + '.label', s.label) +
-        '</div></div></div>';
-    });
+    var html = '<h2 class="sect">一句话履历</h2>' +
+      '<p class="hint">首页标题下面那行大字。想让某个数字变红，用 &lt;b&gt;数字&lt;/b&gt; 把它包起来。</p>' +
+      area('履历（可含 &lt;b&gt; 标签）', 'record', DATA.record, 4);
 
     html += '<h2 class="sect" style="margin-top:38px">引言</h2>' +
-      '<p class="hint">首页中间的大字引言，换行请直接回车。</p>' +
-      area('引言内容', 'pull', DATA.pull, 3) +
+      '<p class="hint">首页中间那段大字引言，换行请直接回车。</p>' +
+      area('引言内容', 'pull', DATA.pull, 4) +
       fld('作品页导语', 'workIntro', DATA.workIntro) +
       fld('精选项目 ID', 'featured', DATA.featured, '对应下方作品的 id');
 
@@ -155,7 +148,7 @@
   }
 
   /* ---------- 作品 ---------- */
-  var CATS = [{ v: 'project', t: '项目经历' }, { v: 'film', t: '中长视频' }, { v: 'short', t: '短视频' }, { v: 'gallery', t: '作品图集' }];
+  function cats() { return (DATA.categories || []).map(function (c) { return { v: c.key, t: c.name }; }); }
   var TYPES = [
     { v: 'p', t: '段落' }, { v: 'h2', t: '小标题' }, { v: 'h3', t: '次标题' },
     { v: 'img', t: '图片' }, { v: 'gal', t: '图组' }, { v: 'quote', t: '引用' },
@@ -220,12 +213,17 @@
             fld('英文名', 'projects.' + i + '.en', p.en) +
           '</div>' +
           '<div class="row3">' +
-            selF('分类', 'projects.' + i + '.cat', p.cat, CATS) +
+            selF('分类', 'projects.' + i + '.cat', p.cat, cats()) +
             fld('日期（如 2026.03）', 'projects.' + i + '.date', p.date) +
             fld('id（链接用）', 'projects.' + i + '.id', p.id) +
           '</div>' +
           area('一句话摘要（列表卡片上显示）', 'projects.' + i + '.summary', p.summary, 2) +
           fld('我的角色', 'projects.' + i + '.role', p.role) +
+          (p.cat === 'interview' || p.honor ? fld('身份 / 职称（显示在标题下面）', 'projects.' + i + '.honor', p.honor || '') : '') +
+          (p.cat === 'interview' || p.ext ? '<div class="row2">' +
+            fld('原文链接（留空则不显示按钮）', 'projects.' + i + '.ext', p.ext || '') +
+            fld('发布方（如 湖北省科协）', 'projects.' + i + '.extName', p.extName || '') +
+          '</div>' : '') +
           imgF('封面图', 'projects.' + i + '.cover', p.cover) +
           '<div class="subh" style="font-size:12px;color:var(--muted);margin:18px 0 8px;letter-spacing:.1em">详情页元信息</div>' +
           (p.facts || []).map(function (f, fi) {

@@ -58,7 +58,7 @@
         case 'note': return '<div class="note">' + (b.html || esc(b.x)) + '</div>';
         case 'hr': return '<hr>';
         case 'img':
-          return '<figure class="fig"><div class="shot">' +
+          return '<figure class="fig"><div class="shot' + (b.crop ? ' crop' : '') + '">' +
             '<img src="' + esc(b.src) + '" alt="' + esc(b.cap || '') + '"' + dimAttr(b.w, b.h) + ' loading="lazy" decoding="async">' +
             '</div>' + (b.cap ? '<figcaption>' + esc(b.cap) + '</figcaption>' : '') + '</figure>';
         case 'gal':
@@ -97,10 +97,7 @@
       return '<div><dt>' + esc(x.k) + '</dt><dd>' + esc(x.v) + '</dd></div>';
     }).join('');
 
-    var statsHtml = (S.stats || []).map(function (s) {
-      return '<div class="rv"><b><span data-count="' + s.n + '">0</span>' +
-        (s.suffix ? '<i>' + esc(s.suffix) + '</i>' : '') + '</b><span class="lab">' + esc(s.label) + '</span></div>';
-    }).join('');
+    var recordHtml = '<p class="record rv">' + (S.record || '') + '</p>';
 
     var marq = (S.marquee || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
 
@@ -126,9 +123,9 @@
 
     var catHtml = (S.categories || []).map(function (c, i) {
       var n = (S.projects || []).filter(function (p) { return p.cat === c.key; }).length;
-      return '<a class="cat rv" style="--d:' + (i * 70) + 'ms" href="work.html?cat=' + esc(c.key) + '">' +
+      return '<a class="cat rv" style="--d:' + (i * 70) + 'ms" href="' + esc(c.file || 'work.html') + '">' +
         '<div><b>' + esc(c.name) + '</b><em>' + esc(c.en) + '</em></div>' +
-        '<div><div class="n">' + String(n).padStart(2, '0') + '</div>' +
+        '<div class="nw"><div class="n">' + String(n).padStart(2, '0') + ' 项</div>' +
         '<span class="go">查看 →</span></div></a>';
     }).join('');
 
@@ -163,9 +160,9 @@
         '<div class="marquee"><div class="marquee-track">' + marq + marq + '</div></div>' +
       '</section>' +
 
-      /* 数字 */
-      '<section class="sec" style="padding-top:0">' +
-        '<div class="wrap"><div class="facts">' + statsHtml + '</div></div>' +
+      /* 一句话履历 */
+      '<section class="record-sec">' +
+        '<div class="wrap">' + recordHtml + '</div>' +
       '</section>' +
 
       /* 引言 */
@@ -198,8 +195,8 @@
           '<div class="sec-head">' +
             '<div><span class="eyebrow"><b>03</b><span class="rule"></span>我能承担什么</span>' +
             '<h2 class="t-lg" style="margin-top:12px">从方案到成片，<br>一个人走完</h2></div>' +
-            '<p class="lead">宣传这件事最怕的是「策划不写稿、写稿不拍照、拍照不会剪」。' +
-            '我做的活基本都在一条链上：定方向、写内容、拍现场、剪成片、发渠道。</p>' +
+            '<p class="lead">一个方案从立项到落地，中间要排节点、写稿、拍照、剪片、发渠道。' +
+            '这几段我可以一个人走完，不用每次都等下一个人的档期。</p>' +
           '</div>' +
           '<div class="skills">' + skillHtml + '</div>' +
         '</div>' +
@@ -232,66 +229,68 @@
      列表页
      ============================================================ */
   function renderList() {
-    var params = new URLSearchParams(location.search);
-    var active = params.get('cat') || 'all';
+    var cat = document.body.getAttribute('data-cat') || '';
+    var cur = null;
+    (S.categories || []).forEach(function (c) { if (c.key === cat) cur = c; });
 
     var counts = { all: (S.projects || []).length };
     (S.categories || []).forEach(function (c) {
       counts[c.key] = (S.projects || []).filter(function (p) { return p.cat === c.key; }).length;
     });
 
-    var filterHtml = '<button class="' + (active === 'all' ? 'on' : '') + '" data-f="all">全部<i>' + counts.all + '</i></button>' +
+    // 板块之间是真实链接，能直接跳页、能新窗口打开，不靠 JS 切换
+    var tabsHtml =
+      '<a class="' + (!cat ? 'on' : '') + '" href="work.html">全部<i>' + counts.all + '</i></a>' +
       (S.categories || []).map(function (c) {
-        return '<button class="' + (active === c.key ? 'on' : '') + '" data-f="' + esc(c.key) + '">' +
-          esc(c.name) + '<i>' + (counts[c.key] || 0) + '</i></button>';
+        return '<a class="' + (cat === c.key ? 'on' : '') + '" href="' + esc(c.file || '#') + '">' +
+          esc(c.name) + '<i>' + (counts[c.key] || 0) + '</i></a>';
       }).join('');
 
-    var cards = (S.projects || []).map(function (p, i) {
-      var hide = (active !== 'all' && p.cat !== active) ? ' hide' : '';
-      return '<a class="card rv' + hide + '" style="--d:' + Math.min(i * 55, 400) + 'ms" ' +
+    var list = (S.projects || []).filter(function (p) { return !cat || p.cat === cat; });
+
+    var cards = list.map(function (p, i) {
+      return '<a class="card rv" style="--d:' + Math.min(i * 55, 400) + 'ms" ' +
         'data-cat="' + esc(p.cat) + '" href="project.html?id=' + esc(p.id) + '">' +
         '<div class="cm">' + coverImg(p) + '<span class="access">ACCESS →</span></div>' +
         '<div class="cw">' +
           '<div class="cmeta"><span class="c">' + esc(catName(p.cat)) + '</span>' +
           '<span>·</span><span>' + esc(p.date || '') + '</span></div>' +
           '<h3>' + esc(p.title) + '</h3>' +
-          (p.summary ? '<p>' + esc(p.summary) + '</p>' : '') +
+          (p.honor ? '<p class="chonor">' + esc(p.honor) + '</p>' : '') +
+          (p.summary && !p.honor ? '<p>' + esc(p.summary) + '</p>' : '') +
+          (p.ext ? '<span class="cext">阅读原文 ↗</span>' : '') +
         '</div></a>';
     }).join('');
 
+    var heading = cur
+      ? allowBr(esc(cur.heading || cur.name))
+      : '做过的活，<br><em style="font-style:normal;color:var(--red)">都在这儿</em>';
+    var desc = cur ? esc(cur.desc || '') : esc(S.workIntro || '');
+    var eyebrow = cur ? esc(cur.en || 'WORK') : 'WORK';
+
     $('#main').innerHTML =
       '<header class="phead"><div class="wrap">' +
-        '<span class="eyebrow rv"><b>WORK</b><span class="rule"></span>2019 — 2026</span>' +
-        '<h1 class="t-xl rv" style="--d:.06s">做过的活，<br><em style="font-style:normal;color:var(--red)">都在这儿</em></h1>' +
-        '<p class="lead rv" style="--d:.12s">' + esc(S.workIntro || '') + '</p>' +
-        '<div class="filters rv" style="--d:.18s">' + filterHtml + '</div>' +
+        '<span class="eyebrow rv"><b>' + eyebrow + '</b><span class="rule"></span>' + list.length + ' 项</span>' +
+        '<h1 class="t-xl rv" style="--d:.06s">' + heading + '</h1>' +
+        '<p class="lead rv" style="--d:.12s">' + desc + '</p>' +
+        '<div class="filters rv" style="--d:.18s">' + tabsHtml + '</div>' +
       '</div></header>' +
       '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
         '<div class="grid" id="grid">' + cards + '</div>' +
         '<div class="empty" id="empty" style="display:none">这个分类下暂时没有内容。</div>' +
       '</div></section>';
-
-    // 筛选
-    $$('.filters button').forEach(function (b) {
-      b.addEventListener('click', function () {
-        $$('.filters button').forEach(function (x) { x.classList.remove('on'); });
-        b.classList.add('on');
-        var f = b.getAttribute('data-f');
-        var shown = 0;
-        $$('.card').forEach(function (c) {
-          var ok = (f === 'all' || c.getAttribute('data-cat') === f);
-          c.classList.toggle('hide', !ok);
-          if (ok) { c.classList.add('in'); shown++; }
-        });
-        $('#empty').style.display = shown ? 'none' : 'block';
-        history.replaceState(null, '', f === 'all' ? 'work.html' : '?cat=' + f);
-      });
-    });
   }
 
   /* ============================================================
      详情页
      ============================================================ */
+  /* 人物页：封面已经在正文上方大图展示过，正文里不重复出现同一张 */
+  function bodyOnly(p) {
+    return (p.blocks || []).filter(function (b) {
+      return !(b.t === 'img' && p.cover && b.src === p.cover);
+    });
+  }
+
   function renderDetail() {
     var params = new URLSearchParams(location.search);
     var id = params.get('id');
@@ -300,6 +299,12 @@
     if (!p) { $('#main').innerHTML = '<div class="wrap" style="padding:160px 0"><p class="lead">没有找到这个项目。</p></div>'; return; }
 
     document.title = p.title + ' · ' + ((S.meta || {}).name || 'xiang-bo.top');
+
+    // 这个项目属于哪个板块，返回链接就指向那个板块
+    var curCat = null;
+    (S.categories || []).forEach(function (c) { if (c.key === p.cat) curCat = c; });
+    var backFile = curCat ? curCat.file : 'work.html';
+    var backName = curCat ? curCat.name : '全部作品';
 
     var idx = list.indexOf(p);
     var prev = list[idx - 1], next = list[idx + 1];
@@ -314,25 +319,29 @@
 
     var pager = '<div class="pager">' +
       (prev ? '<a href="project.html?id=' + esc(prev.id) + '"><span class="k">← 上一个</span><b>' + esc(prev.title) + '</b></a>'
-        : '<a href="work.html"><span class="k">← 返回</span><b>全部作品</b></a>') +
+        : '<a href="' + esc(backFile) + '"><span class="k">← 返回</span><b>' + esc(backName) + '</b></a>') +
       (next ? '<a class="next" href="project.html?id=' + esc(next.id) + '"><span class="k">下一个 →</span><b>' + esc(next.title) + '</b></a>'
-        : '<a class="next" href="work.html"><span class="k">返回 →</span><b>全部作品</b></a>') +
+        : '<a class="next" href="' + esc(backFile) + '"><span class="k">返回 →</span><b>' + esc(backName) + '</b></a>') +
       '</div>';
 
     $('#main').innerHTML =
       '<header class="dhead"><div class="wrap">' +
         '<div class="crumb"><a href="index.html">首页</a><span class="sep">/</span>' +
-          '<a href="work.html">作品</a><span class="sep">/</span><span>' + esc(catName(p.cat)) + '</span></div>' +
+          '<a href="' + esc(backFile) + '">' + esc(backName) + '</a><span class="sep">/</span><span>' + esc(p.title) + '</span></div>' +
         '<h1 class="t-xl rv">' + esc(p.title) + '</h1>' +
+        (p.honor ? '<p class="dhonor rv" style="--d:.05s">' + esc(p.honor) + '</p>' : '') +
         '<p class="sub rv" style="--d:.08s">' + esc(p.summary || '') + '</p>' +
         '<dl class="dmeta rv" style="--d:.14s">' + metaHtml + '</dl>' +
+        (p.ext ? '<div class="rv" style="--d:.18s"><a class="extlink" href="' + esc(p.ext) + '" target="_blank" rel="noopener">' +
+          '阅读报道原文 <span>↗</span></a>' +
+ '</div>' : '') +
       '</div></header>' +
       '<div class="wrap">' +
         '<div class="dcover rv" data-rv="scale">' +
           '<img src="' + esc(p.cover || '') + '" alt="' + esc(p.title) + '" data-parallax="0.05">' +
         '</div>' +
       '</div>' +
-      '<article class="body-flow">' + renderBlocks(p.blocks) + '</article>' +
+      '<article class="body-flow">' + renderBlocks(p.cat === 'interview' ? bodyOnly(p) : p.blocks) + '</article>' +
       '<div class="wrap" style="max-width:880px">' + pager + '</div>';
 
     // 让正文块也参与动效

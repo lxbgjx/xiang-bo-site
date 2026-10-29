@@ -59,7 +59,7 @@
       var vh = window.innerHeight;
       rest.forEach(function (el) {
         var r = el.getBoundingClientRect();
-        if (r.top < vh * 0.94 && r.bottom > -vh * 0.5) el.classList.add('in');
+        if (r.top < vh * 0.94) el.classList.add('in');
       });
     }
     function onScroll() {
@@ -126,12 +126,12 @@
       });
     }
 
-    // 当前页高亮
-    var page = document.body.getAttribute('data-page');
-    if (page) {
-      var cur = $('.nav-links a[data-nav="' + page + '"]');
-      if (cur) cur.classList.add('on');
-    }
+    // 当前页高亮：按文件名匹配，板块页和关于页都能对上
+    var file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    $$('.nav-links a, .nav-panel a').forEach(function (a) {
+      var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0].toLowerCase();
+      if (h && h === file) a.classList.add('on');
+    });
   }
 
   /* ---------- 光标 ---------- */

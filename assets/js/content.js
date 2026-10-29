@@ -1,6 +1,3 @@
-/* 站点内容 · 全站唯一内容源
-   改这里就能改整站内容；也可以用 editor.html 可视化编辑后导出覆盖本文件。
-   图片带 w/h 是为了懒加载时不跳动。 */
 window.SITE = {
  "meta": {
   "name": "廖相博",
@@ -17,7 +14,7 @@ window.SITE = {
    "把每件事",
    "做到现场"
   ],
-  "lede": "从央企工地的建设现场，到省市级政务活动的台前幕后；从湖北各市州的基层街巷，到高山与乡村的实地取材。我做的事基本都在一条链上：<strong>定方向、写内容、拍现场、剪成片、发渠道</strong>。",
+  "lede": "我拍过央企的工地，也拍过省里的会。县城的街、海拔一千米的山，去过不止一次。一篇稿子从定选题到发出去，中间的拍照、剪片、排版，多数时候一个人做完。",
   "cover": "assets/img/i002.webp",
   "coverTag": "现场 · 武汉",
   "num": "2019",
@@ -27,8 +24,8 @@ window.SITE = {
     "v": "宣传策划 / 内容创作"
    },
    {
-    "k": "领域",
-    "v": "党建 · 科技 · 民生 · 教育"
+    "k": "跑过的口",
+    "v": "政务 · 科技 · 教育 · 民生"
    },
    {
     "k": "坐标",
@@ -38,40 +35,18 @@ window.SITE = {
   "cw": 1024,
   "ch": 768
  },
- "stats": [
-  {
-   "n": 100,
-   "suffix": "+",
-   "label": "场政务活动拍摄"
-  },
-  {
-   "n": 15,
-   "suffix": "所",
-   "label": "校园品牌培育学校"
-  },
-  {
-   "n": 104,
-   "suffix": "篇",
-   "label": "一个项目内的全平台报道"
-  },
-  {
-   "n": 6,
-   "suffix": "部",
-   "label": "独立摄制中长视频"
-  }
- ],
  "marquee": [
-  "党建宣传",
+  "省市级政务活动",
+  "校园文化品牌",
   "科技科普",
-  "民生记录",
-  "教育观察",
-  "活动执行",
-  "影像叙事",
+  "人物专访",
   "会议摄影",
-  "人物专访"
+  "纪录片",
+  "活动快剪",
+  "航拍"
  ],
- "pull": "宣传这件事最怕的是「策划不写稿、写稿不拍照、拍照不会剪」。\n我做的活，基本都在这同一条链上。",
- "workIntro": "项目是完整做完的活，视频是讲故事的活，图集是现场的备份。下面这些都能直接点开看，不用注册、不用跳转。",
+ "pull": "一个活动从定方案到发出去，要有人写稿、有人拍照、有人剪片。活分在几个人手上，中间就得等档期。我多数时候这几段一起做完，事情不会卡在交接上。",
+ "workIntro": "下面按我做过的活分成几类。点开就能看，不用注册，也不用跳转。",
  "featured": "jiang-an",
  "skills": [
   {
@@ -99,22 +74,41 @@ window.SITE = {
   {
    "key": "project",
    "name": "项目经历",
-   "en": "PROJECTS"
+   "en": "PROJECTS",
+   "file": "projects.html",
+   "heading": "做完的项目，<br>都在这儿",
+   "desc": "从立项、执行、发稿一直跟到结束的活。有给区里做的校园文化品牌，也有省级活动的现场记录。"
+  },
+  {
+   "key": "interview",
+   "name": "人物专访",
+   "en": "INTERVIEWS",
+   "file": "interview.html",
+   "desc": "院士、全国创新争先奖获得者、道德模范。每个人单独一页，放的是现场拍的照片，能点开看发出去的原文。"
   },
   {
    "key": "film",
    "name": "中长视频",
-   "en": "FILMS"
+   "en": "FILMS",
+   "file": "films.html",
+   "heading": "十几分钟的片子",
+   "desc": "自己拍、自己剪的长片。纪录片、剧情短片、科普微课都有，最短的也有七八分钟。"
   },
   {
    "key": "short",
    "name": "短视频",
-   "en": "SHORTS"
+   "en": "SHORTS",
+   "file": "shorts.html",
+   "heading": "三分钟以内",
+   "desc": "赛事快剪、平台账号的作品记录。节奏快，要求当天出片。"
   },
   {
    "key": "gallery",
    "name": "作品图集",
-   "en": "GALLERY"
+   "en": "GALLERY",
+   "file": "gallery.html",
+   "heading": "现场拍下来的",
+   "desc": "会议、活动、人物，按场次整组放。不挑最漂亮的，挑能说明现场是什么样子的。"
   }
  ],
  "projects": [
@@ -608,9 +602,268 @@ window.SITE = {
    "ch": 445
   },
   {
+   "id": "p-dengjiake",
+   "cat": "interview",
+   "order": 2,
+   "title": "邓家科",
+   "en": "DENG JIAKE",
+   "date": "2026.10",
+   "honor": "华工法利莱切焊系统工程有限公司董事长兼总经理",
+   "summary": "激光切割和焊接装备这条线，他做了二十多年。车身焊接、三维五轴切割机，几个原本被国外企业占住的位置，是团队一点一点蹚下来的。",
+   "role": "采写 · 摄影",
+   "ext": "https://hbkx.org.cn/news/info?newsid=925e5182ff2141c495dafca4827deeeb",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i053.webp",
+   "cw": 1500,
+   "ch": 844,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i053.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 844
+    },
+    {
+     "t": "img",
+     "src": "assets/img/i054.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 844
+    }
+   ]
+  },
+  {
+   "id": "p-yangzhifang",
+   "cat": "interview",
+   "order": 3,
+   "title": "杨志方",
+   "en": "YANG ZHIFANG",
+   "date": "2026.04",
+   "honor": "2026 年荆楚科技工作者风采展示",
+   "summary": "这一篇的标题是「微纳铸盾守国脉 创新筑梦护民安」。稿子发在湖北省科协，4 月 1 日上线。",
+   "role": "采写 · 摄影",
+   "ext": "",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i056.webp",
+   "cw": 1500,
+   "ch": 871,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i056.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 871
+    }
+   ]
+  },
+  {
+   "id": "p-chenweizhong",
+   "cat": "interview",
+   "order": 4,
+   "title": "陈卫忠",
+   "en": "CHEN WEIZHONG",
+   "date": "2026.07",
+   "honor": "中国科学院武汉岩土力学研究所总工程师",
+   "summary": "2026 年 5 月，他拿到第四届全国创新争先奖。天山胜利隧道的断层错动、胶州湾第二海底隧道的海水压力，团队是在工地上一条条摸出来的。",
+   "role": "采写 · 摄影",
+   "ext": "https://hbkx.org.cn/news/info?newsid=9586cce0535d449aa66542a40db7f31a",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i058.webp",
+   "cw": 1500,
+   "ch": 844,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i058.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 844
+    }
+   ]
+  },
+  {
+   "id": "p-chenxiaoping",
+   "cat": "interview",
+   "order": 5,
+   "title": "陈孝平",
+   "en": "CHEN XIAOPING",
+   "date": "2026.08",
+   "honor": "中国科学院院士 · 同济医院外科学系主任",
+   "summary": "他做过的事里，最出名的一件是把「巨大肝癌不能切」这个结论推翻了。另外还有一项以他姓氏命名的胰肠吻合术。",
+   "role": "采写 · 摄影",
+   "ext": "",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i060.webp",
+   "cw": 1500,
+   "ch": 1000,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i060.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 1000
+    }
+   ]
+  },
+  {
+   "id": "p-longlehao",
+   "cat": "interview",
+   "order": 6,
+   "title": "龙乐豪",
+   "en": "LONG LEHAO",
+   "date": "2026.08",
+   "honor": "中国工程院院士 · 长征三号甲系列运载火箭总设计师",
+   "summary": "长征三号甲系列的总设计师。这张照片是他在讲 CZ-3A 系列的技术攻关，屏幕上的那行字写着「艰难坎坷」。",
+   "role": "采写 · 摄影",
+   "ext": "",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i062.webp",
+   "cw": 1500,
+   "ch": 1000,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i062.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 1000
+    }
+   ]
+  },
+  {
+   "id": "p-dengzixin",
+   "cat": "interview",
+   "order": 7,
+   "title": "邓子新",
+   "en": "DENG ZIXIN",
+   "date": "2026.08",
+   "honor": "中国科学院院士",
+   "summary": "照片里一个是他的农业科普工作室，一个是果园里的现场。科普这件事他做了很多年。",
+   "role": "采写 · 摄影",
+   "ext": "",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i064.webp",
+   "cw": 1500,
+   "ch": 1000,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i063.webp",
+     "cap": "邓子新院士农业科普工作室",
+     "w": 1500,
+     "h": 1000
+    },
+    {
+     "t": "img",
+     "src": "assets/img/i064.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 1000
+    }
+   ]
+  },
+  {
+   "id": "p-wangzhengyan",
+   "cat": "interview",
+   "order": 8,
+   "title": "王争艳",
+   "en": "WANG ZHENGYAN",
+   "date": "2026.08",
+   "honor": "全国道德模范",
+   "summary": "照片是在诊室里拍的，桌上摊着病历，对面坐着病人。",
+   "role": "采写 · 摄影",
+   "ext": "",
+   "extName": "湖北省科协",
+   "facts": [
+    {
+     "k": "发表",
+     "v": "湖北省科协"
+    },
+    {
+     "k": "系列",
+     "v": "荆楚科技工作者风采"
+    }
+   ],
+   "cover": "assets/img/i065.webp",
+   "cw": 1500,
+   "ch": 1125,
+   "blocks": [
+    {
+     "t": "img",
+     "src": "assets/img/i065.webp",
+     "cap": "",
+     "w": 1500,
+     "h": 1125
+    }
+   ]
+  },
+  {
    "id": "hubei-photo",
    "cat": "project",
-   "order": 2,
+   "order": 9,
    "title": "宣传教育中心宣传照",
    "en": "PUBLICITY PHOTOS",
    "date": "2024.08",
@@ -678,7 +931,7 @@ window.SITE = {
   {
    "id": "hubei-gala",
    "cat": "project",
-   "order": 3,
+   "order": 10,
    "title": "湖北省市场监管局春晚（2024）",
    "en": "SPRING FESTIVAL GALA 2024",
    "date": "2024.08",
@@ -839,134 +1092,9 @@ window.SITE = {
    "ch": 683
   },
   {
-   "id": "interview",
-   "cat": "project",
-   "order": 4,
-   "title": "人物专访",
-   "en": "INTERVIEWS",
-   "date": "2026.08",
-   "cover": "assets/img/i053.webp",
-   "summary": "给两院院士、全国创新争先奖获得者、道德模范做人物报道：陈孝平、龙乐豪、邓子新、陈卫忠、王争艳等。",
-   "role": "采访 · 摄影 · 撰稿",
-   "facts": [
-    {
-     "k": "对象",
-     "v": "院士 3 位"
-    },
-    {
-     "k": "人物",
-     "v": "7 位"
-    }
-   ],
-   "blocks": [
-    {
-     "t": "img",
-     "src": "assets/img/i053.webp",
-     "cap": "",
-     "w": 1500,
-     "h": 844
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i054.webp",
-     "cap": "2026年荆楚最美科技工作者邓家科",
-     "w": 1500,
-     "h": 844
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i055.webp",
-     "cap": "",
-     "w": 1500,
-     "h": 2157
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i056.webp",
-     "cap": "2026年荆楚最美科技工作者杨志军",
-     "w": 1500,
-     "h": 871
-    },
-    {
-     "t": "gal",
-     "srcs": [
-      "assets/img/i057.webp",
-      "assets/img/i058.webp"
-     ],
-     "dims": [
-      [
-       1187,
-       2491
-      ],
-      [
-       1500,
-       844
-      ]
-     ]
-    },
-    {
-     "t": "p",
-     "html": "2026年第四届全国创新争先奖获得者，中科院武汉岩土力学研究所总工程师陈卫忠",
-     "x": "2026年第四届全国创新争先奖获得者，中科院武汉岩土力学研究所总工程师陈卫忠",
-     "en": false
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i059.webp",
-     "cap": "",
-     "w": 1187,
-     "h": 2480
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i060.webp",
-     "cap": "中国工程院院士、武汉医学会会长陈孝平",
-     "w": 1500,
-     "h": 1000
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i061.webp",
-     "cap": "",
-     "w": 1187,
-     "h": 5444
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i062.webp",
-     "cap": "中国工程院院士、长征系列总设计师龙乐豪",
-     "w": 1500,
-     "h": 1000
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i063.webp",
-     "cap": "",
-     "w": 1500,
-     "h": 1000
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i064.webp",
-     "cap": "中国科学院院士邓子新",
-     "w": 1500,
-     "h": 1000
-    },
-    {
-     "t": "img",
-     "src": "assets/img/i065.webp",
-     "cap": "全国道德模范王争艳女士",
-     "w": 1500,
-     "h": 1125
-    }
-   ],
-   "cw": 1500,
-   "ch": 844
-  },
-  {
    "id": "brotherhood",
    "cat": "film",
-   "order": 5,
+   "order": 11,
    "title": "对决",
    "en": "BROTHERHOOD OF MAN",
    "date": "2022.10",
@@ -1016,7 +1144,7 @@ window.SITE = {
   {
    "id": "yunteng",
    "cat": "film",
-   "order": 6,
+   "order": 12,
    "title": "云腾沐抚",
    "en": "CLOUDS SOARING",
    "date": "2023.03",
@@ -1109,7 +1237,7 @@ window.SITE = {
   {
    "id": "fanpu",
    "cat": "film",
-   "order": 7,
+   "order": 13,
    "title": "反哺",
    "en": "REGURGITATE",
    "date": "2021.07",
@@ -1165,7 +1293,7 @@ window.SITE = {
   {
    "id": "tea",
    "cat": "film",
-   "order": 8,
+   "order": 14,
    "title": "茶叶的生长过程",
    "en": "THE GROWING PROCESS OF TEA",
    "date": "2021.07",
@@ -1264,11 +1392,11 @@ window.SITE = {
   {
    "id": "picture",
    "cat": "film",
-   "order": 9,
+   "order": 15,
    "title": "相片",
    "en": "PICTURE",
    "date": "2024.09",
-   "cover": null,
+   "cover": "assets/img/pc01.webp",
    "summary": "一部关于「照片」的惊悚短片，团队作品，我参与拍摄与出演。",
    "role": "团队创作",
    "facts": [
@@ -1296,12 +1424,14 @@ window.SITE = {
      "t": "embed",
      "src": "https://www.bilibili.com/video/BV1r2sye2EsC/?vd_source=2045f5576dc565f07185398092f36253"
     }
-   ]
+   ],
+   "cw": 618,
+   "ch": 368
   },
   {
    "id": "jinzhong",
    "cat": "film",
-   "order": 10,
+   "order": 16,
    "title": "荩忠报国",
    "en": "JINZHONG SERVE COUNTRY",
    "date": "2021.07",
@@ -1377,7 +1507,7 @@ window.SITE = {
   {
    "id": "activity",
    "cat": "short",
-   "order": 11,
+   "order": 17,
    "title": "活动类视频",
    "en": "EVENT HIGHLIGHTS",
    "date": "2026.04",
@@ -1453,7 +1583,7 @@ window.SITE = {
   {
    "id": "douyin",
    "cat": "short",
-   "order": 12,
+   "order": 18,
    "title": "视频号 · 抖音",
    "en": "SHORT VIDEO",
    "date": "2024.09",
@@ -1548,7 +1678,7 @@ window.SITE = {
   {
    "id": "meeting",
    "cat": "gallery",
-   "order": 13,
+   "order": 19,
    "title": "会议类",
    "en": "CONFERENCES",
    "date": "2026.04",
@@ -1635,101 +1765,25 @@ window.SITE = {
    ],
    "cw": 1080,
    "ch": 538
-  },
-  {
-   "id": "awards",
-   "cat": "gallery",
-   "order": 14,
-   "title": "个人奖项",
-   "en": "AWARDS",
-   "date": "2021.07",
-   "cover": "assets/img/i012.webp",
-   "summary": "部分获奖证书与奖杯：iteach 全国二等奖，以及若干省市级比赛奖项。",
-   "role": "—",
-   "facts": [
-    {
-     "k": "数量",
-     "v": "8 项"
-    }
-   ],
-   "blocks": [
-    {
-     "t": "h2",
-     "x": "部分个人奖项一览"
-    },
-    {
-     "t": "h2",
-     "x": "Here are some of the awards I've won in various competitions"
-    },
-    {
-     "t": "gal",
-     "srcs": [
-      "assets/img/i012.webp",
-      "assets/img/i013.webp",
-      "assets/img/i014.webp",
-      "assets/img/i015.webp",
-      "assets/img/i016.webp",
-      "assets/img/i017.webp",
-      "assets/img/i018.webp",
-      "assets/img/i019.webp"
-     ],
-     "dims": [
-      [
-       1024,
-       674
-      ],
-      [
-       1020,
-       1443
-      ],
-      [
-       974,
-       1367
-      ],
-      [
-       693,
-       960
-      ],
-      [
-       985,
-       1393
-      ],
-      [
-       1024,
-       671
-      ],
-      [
-       985,
-       1393
-      ],
-      [
-       750,
-       1061
-      ]
-     ]
-    }
-   ],
-   "cw": 1024,
-   "ch": 674
   }
  ],
  "about": {
   "title": "走进去，<br>再写出来。",
-  "lede": "我不是那种坐在办公室里等素材的宣传工作。工地的塔吊下、政务活动的后台、县城的街巷里、海拔一千米的山上，都是我拿素材的地方。",
+  "lede": "素材不是等来的。工地在哪、会场在哪、山在哪，人就得去哪。有时候一天跑两个县，晚上回来剪到两点。",
   "sideTitle": "我是谁",
   "sideEn": "Who I am",
   "paras": [
    {
-    "zh": "从央企工地的建设现场，到省市级政务活动的台前幕后；从湖北各市各区的基层街巷，到高山与乡村的实地取材，我始终坚持走出去、沉下去、拍真实、写真情。",
-    "en": "From the construction sites of central state-owned enterprise projects to the front and behind-the-scenes of provincial and municipal government affairs activities; from the grassroots streets and alleys of various districts and cities in Hubei to on-site location shooting in high mountains and rural areas, I have always insisted on going out, sinking down, capturing reality, and writing with genuine feelings."
+    "zh": "我在市监局做过几年宣传，跑的是全省的政务活动，一年几十场。后来到武汉科技报，接「江岸之光」这个项目，给江岸区 15 所中小学做校园文化。写稿、拍照、剪片、发稿，这几样都是自己上。",
+    "en": "I did publicity work for the Hubei Market Regulation Administration for a few years, covering dozens of government events a year across the province. Later I joined Wuhan Science and Technology News and took on the Jiang'an project, building campus culture brands for 15 schools. Writing, shooting, editing, publishing — I did all of it myself."
    },
    {
-    "zh": "我曾深入项目工地记录建设者风采，跑遍全省完成百余场政务活动拍摄，扎根基层采集一手素材，用相机定格现场、用剪辑呈现故事、用文字传递声音。",
-    "en": "I have gone deep into project sites to document the demeanor of construction workers, traveled across the entire province to cover over a hundred government affairs events, and taken root at the grassroots level to collect first-hand materials. I freeze-frame moments with a camera, present stories through editing, and convey voices with words."
+    "zh": "写的稿子有政务通稿，也有人物专访，采访过陈孝平、龙乐豪这些院士。拍的照片从会议室到工地都有。剪的片子有十几分钟的纪录片，也有三分钟的活动快剪。",
+    "en": "I have written government releases and long-form interviews, including with academicians Chen Xiaoping and Long Lehao. I have shot everything from conference rooms to construction sites. I have cut documentaries over ten minutes and event recaps under three."
    },
    {
-    "zh": "多年来深耕党建、科技、民生、教育领域宣传，兼具政务对接、内容创作、视觉技术、活动执行全栈能力，始终以实地经历为底色，做有现场感、有真实感、有责任感的宣传工作者。",
-    "en": "Over the years, I have been deeply engaged in publicity in the fields of Party building, science and technology, people's livelihood, and education. I possess comprehensive capabilities in government affairs coordination, content creation, visual technology, and event execution. Grounded in real on-site experience, I strive to be a publicity professional with a strong sense of presence, authenticity, and responsibility."
+    "zh": "器材我用 A7M4 和无人机，也用手机。工具不决定成品。能不能在现场站到该站的位置、回来能不能把素材剪成别人看得下去的东西，这两件事才决定。",
+    "en": "I use an A7M4, a drone, and sometimes just a phone. Gear does not decide the result. Two things do: whether you stand in the right place on site, and whether you can cut the footage into something people will actually watch."
    }
   ],
   "photos": [
@@ -1838,5 +1892,6 @@ window.SITE = {
    "assets/img/i023.webp",
    "assets/img/i024.webp"
   ]
- }
+ },
+ "record": "从 2019 年到现在，跟过 <b>100 多</b>场政务活动，采访过 <b>7</b> 位院士和全国道德模范，自己拍、自己剪了 <b>6</b> 部中长视频。"
 };
