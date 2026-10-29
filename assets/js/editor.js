@@ -119,7 +119,7 @@
       '<p class="hint">首页中间那段大字引言，换行请直接回车。</p>' +
       area('引言内容', 'pull', DATA.pull, 4) +
       fld('作品页导语', 'workIntro', DATA.workIntro) +
-      fld('精选项目 ID', 'featured', DATA.featured, '对应下方作品的 id');
+      fld('首页精选（填作品 id 或标题均可）', 'featured', DATA.featured, '例：jiang-an，或直接写「江岸之光 · 五育润心」');
 
     html += '<h2 class="sect" style="margin-top:38px">跑马灯文字</h2>' +
       '<p class="hint">首屏下方横向滚动的那行词，用逗号分隔。</p>' +

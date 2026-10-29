@@ -31,8 +31,22 @@
     var c = (S.categories || []).filter(function (x) { return x.key === k; })[0];
     return c ? c.en : '';
   }
+  /* 宽松匹配：既认 id，也认标题（忽略空格、引号、间隔号大小写差异），
+     这样在编辑器里把「精选项目」写成中文标题也能正确命中 */
+  function normKey(s) {
+    return String(s == null ? '' : s).replace(/[\s\u3000“”"'‘’·・.。,，、\-—_]/g, '').toLowerCase();
+  }
   function byId(id) {
-    return (S.projects || []).filter(function (p) { return p.id === id; })[0];
+    var list = S.projects || [];
+    var key = String(id == null ? '' : id).trim();
+    if (!key) return null;
+    var hit = list.filter(function (p) { return p.id === key; })[0];
+    if (hit) return hit;
+    var n = normKey(key);
+    if (!n) return null;
+    hit = list.filter(function (p) { return normKey(p.title) === n; })[0];
+    if (hit) return hit;
+    return list.filter(function (p) { return normKey(p.title).indexOf(n) >= 0; })[0] || null;
   }
   var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   var ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -258,7 +272,7 @@
           '<h3>' + esc(p.title) + '</h3>' +
           (p.honor ? '<p class="chonor">' + esc(p.honor) + '</p>' : '') +
           (p.summary && !p.honor ? '<p>' + esc(p.summary) + '</p>' : '') +
-          (p.ext ? '<span class="cext">阅读原文 ↗</span>' : '') +
+          (p.ext ? '<span class="cext">打开专访 →</span>' : '') +
         '</div></a>';
     }).join('');
 
@@ -333,7 +347,7 @@
         '<p class="sub rv" style="--d:.08s">' + esc(p.summary || '') + '</p>' +
         '<dl class="dmeta rv" style="--d:.14s">' + metaHtml + '</dl>' +
         (p.ext ? '<div class="rv" style="--d:.18s"><a class="extlink" href="' + esc(p.ext) + '" target="_blank" rel="noopener">' +
-          '阅读报道原文 <span>↗</span></a>' +
+          '阅读报道原文' + (p.extName ? ' · ' + esc(p.extName) : '') + ' <span>↗</span></a>' +
  '</div>' : '') +
       '</div></header>' +
       '<div class="wrap">' +

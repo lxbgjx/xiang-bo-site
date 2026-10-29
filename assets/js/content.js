@@ -652,10 +652,10 @@ window.SITE = {
    "title": "杨志方",
    "en": "YANG ZHIFANG",
    "date": "2026.04",
-   "honor": "2026 年荆楚科技工作者风采展示",
+   "honor": "武汉华工图像技术开发有限公司副总工程师",
    "summary": "这一篇的标题是「微纳铸盾守国脉 创新筑梦护民安」。稿子发在湖北省科协，4 月 1 日上线。",
    "role": "采写 · 摄影",
-   "ext": "",
+   "ext": "https://hbkx.org.cn/news/info?newsid=b3c3ad5470744ee49fc51c498d309d47",
    "extName": "湖北省科协",
    "facts": [
     {
@@ -760,12 +760,12 @@ window.SITE = {
    "honor": "中国工程院院士 · 长征三号甲系列运载火箭总设计师",
    "summary": "长征三号甲系列的总设计师。这张照片是他在讲 CZ-3A 系列的技术攻关，屏幕上的那行字写着「艰难坎坷」。",
    "role": "采写 · 摄影",
-   "ext": "",
-   "extName": "湖北省科协",
+   "ext": "https://m.toutiao.com/article/7631394915922100799/",
+   "extName": "今日头条",
    "facts": [
     {
      "k": "发表",
-     "v": "湖北省科协"
+     "v": "今日头条"
     },
     {
      "k": "系列",
