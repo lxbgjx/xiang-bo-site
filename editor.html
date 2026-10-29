@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>内容编辑器 · xiang-bo.top</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/editor.css">
+</head>
+<body>
+
+<div class="ebar">
+  <h1>内容编辑器 <i>·</i> xiang-bo.top</h1>
+  <span class="st" id="status">未修改</span>
+  <span class="sp"></span>
+  <a href="index.html" target="_blank">预览站点 ↗</a>
+  <button id="btnReset">还原</button>
+  <button id="btnSave">存到本机</button>
+  <button class="pri" id="btnExport">导出 content.js</button>
+</div>
+
+<div class="ebody">
+  <aside class="eside" id="side">
+    <div class="grp">基础</div>
+    <a href="#site" data-p="site" class="on">站点与首屏</a>
+    <div class="grp">首页</div>
+    <a href="#home" data-p="home">数字与文案</a>
+    <a href="#work" data-p="work">作品列表</a>
+    <div class="grp">页面</div>
+    <a href="#about" data-p="about">关于页</a>
+    <a href="#extra" data-p="extra">时间线与奖项</a>
+    <div class="grp">帮助</div>
+    <a href="#help" data-p="help">怎么发布</a>
+  </aside>
+  <section class="epanel" id="panel"></section>
+</div>
+
+<div id="pick">
+  <div class="box">
+    <div class="ph3"><b>选择图片</b><button id="pickClose">关闭</button></div>
+    <div class="grid" id="pickGrid"></div>
+  </div>
+</div>
+
+<div id="out">
+  <div class="box">
+    <div class="ph3"><b>导出 content.js</b><button id="outClose">关闭</button></div>
+    <div class="obox">
+      <p class="ohint">两种用法，任选一种：<br>
+        <b>下载文件</b> — 拿到 content.js，在 GitHub 里替换同名文件。<br>
+        <b>复制全文</b> — 直接粘到 GitHub 网页版的 content.js 编辑器里。
+      </p>
+      <textarea id="outText" spellcheck="false" readonly></textarea>
+      <div class="oacts">
+        <button class="pri" id="outDl">下载文件</button>
+        <button id="outCopy">复制全文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/editor.js"></script>
+</body>
+</html>
