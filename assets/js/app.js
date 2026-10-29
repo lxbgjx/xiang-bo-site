@@ -195,9 +195,9 @@
         '<div class="wrap">' +
           '<div class="sec-head">' +
             '<div><span class="eyebrow"><b>02</b><span class="rule"></span>作品分区</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">四个入口，<br>按你关心的事情走</h2></div>' +
-            '<p class="lead">项目是完整做完的活，视频是讲故事的活，图集是现场的备份。' +
-            '每一类我都留了可以直接看的样本，不用注册、不用跳转。</p>' +
+            '<h2 class="t-lg" style="margin-top:12px">这几年做的，<br>分成五类放着</h2></div>' +
+            '<p class="lead">给区里和学校做过的整案、采访院士和道德模范写的稿子、' +
+            '自己拍自己剪的长片短片，还有会议现场拍的照片。每类单独一页。</p>' +
           '</div>' +
           '<div class="cats">' + catHtml + '</div>' +
         '</div>' +

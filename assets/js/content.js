@@ -1790,7 +1790,7 @@ window.SITE = {
   "photos": [
    {
     "src": "assets/img/i002.webp",
-    "cap": "采访陈孝平院士",
+    "cap": "摄影进行时",
     "w": 1024,
     "h": 768
    },
