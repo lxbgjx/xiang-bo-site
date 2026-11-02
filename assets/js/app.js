@@ -203,9 +203,9 @@
         '<div class="wrap">' +
           '<div class="sec-head">' +
             '<div><span class="eyebrow"><b>02</b><span class="rule"></span>作品构成</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">四类作品，<br>覆盖完整流程</h2></div>' +
+            '<h2 class="t-lg" style="margin-top:12px">四类作品，<br>样样都有看头</h2></div>' +
             '<p class="lead">案例是完整交付的项目，现场是活动中拍下的影像，人物是采访写成的报道，' +
-            '影片是独立拍摄剪辑的成片。四类合起来，覆盖从策划、采写、拍摄、剪辑到渠道发布的完整环节，每一项均可点开核对。</p>' +
+            '影片是独立拍摄剪辑的成片。四类合起来，正好串起策划、采写、拍摄、剪辑到发布的一条线，每一项都可以点开核对。</p>' +
           '</div>' +
           '<div class="cats">' + catHtml + '</div>' +
         '</div>' +
