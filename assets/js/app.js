@@ -216,9 +216,9 @@
         '<div class="wrap">' +
           '<div class="sec-head">' +
             '<div><span class="eyebrow"><b>03</b><span class="rule"></span>工作范围</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">从方案到成片，<br>全流程独立完成</h2></div>' +
+            '<h2 class="t-lg" style="margin-top:12px">从方案到成片，<br>一个人接得住</h2></div>' +
             '<p class="lead">一个项目从立项到发布，中间要排节点、写稿、拍照、剪片、投渠道。' +
-            '这四个环节在同一套流程内完成，不需要另行协调他人档期，交付周期可控。</p>' +
+            '这几件事都在自己手上，不用等下一个人的档期，进度也自己说了算。</p>' +
           '</div>' +
           '<div class="skills">' + skillHtml + '</div>' +
         '</div>' +
