@@ -202,10 +202,10 @@
       '<section class="sec" style="padding-top:0">' +
         '<div class="wrap">' +
           '<div class="sec-head">' +
-            '<div><span class="eyebrow"><b>02</b><span class="rule"></span>作品分区</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">这几年做的，<br>分成四类放着</h2></div>' +
-            '<p class="lead">给区里和学校做过的整案、采访院士和道德模范写的稿子、' +
-            '到过的现场拍下的照片，还有自己拍自己剪的片子。每类单独一页。</p>' +
+            '<div><span class="eyebrow"><b>02</b><span class="rule"></span>作品构成</span>' +
+            '<h2 class="t-lg" style="margin-top:12px">四类作品，<br>覆盖完整流程</h2></div>' +
+            '<p class="lead">案例是完整交付的项目，现场是活动中拍下的影像，人物是采访写成的报道，' +
+            '影片是独立拍摄剪辑的成片。四类合起来，覆盖从策划、采写、拍摄、剪辑到渠道发布的完整环节，每一项均可点开核对。</p>' +
           '</div>' +
           '<div class="cats">' + catHtml + '</div>' +
         '</div>' +
@@ -215,10 +215,10 @@
       '<section class="sec" style="padding-top:0">' +
         '<div class="wrap">' +
           '<div class="sec-head">' +
-            '<div><span class="eyebrow"><b>03</b><span class="rule"></span>我能承担什么</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">从方案到成片，<br>一个人走完</h2></div>' +
-            '<p class="lead">一个方案从立项到落地，中间要排节点、写稿、拍照、剪片、发渠道。' +
-            '这几段我可以一个人走完，不用每次都等下一个人的档期。</p>' +
+            '<div><span class="eyebrow"><b>03</b><span class="rule"></span>工作范围</span>' +
+            '<h2 class="t-lg" style="margin-top:12px">从方案到成片，<br>全流程独立完成</h2></div>' +
+            '<p class="lead">一个项目从立项到发布，中间要排节点、写稿、拍照、剪片、投渠道。' +
+            '这四个环节在同一套流程内完成，不需要另行协调他人档期，交付周期可控。</p>' +
           '</div>' +
           '<div class="skills">' + skillHtml + '</div>' +
         '</div>' +
@@ -227,9 +227,9 @@
       /* CTA */
       '<section class="sec" style="padding-top:0">' +
         '<div class="wrap"><div class="cta rv">' +
-          '<h2 class="t-lg">要拍、要写，<br>或者只是想聊聊？</h2>' +
-          '<p>项目合作、内容拍摄、活动记录，都可以直接找我。' +
-          '看到合适的选题，我也愿意先出一版思路再谈具体的。</p>' +
+          '<h2 class="t-lg">有合作或岗位机会，<br>可以直接联系</h2>' +
+          '<p>项目合作、内容拍摄、活动记录与全职岗位，均可邮件沟通。' +
+          '如需更完整的作品清单、任职证明或作品原件，也可以在邮件中一并说明。</p>' +
           '<div class="acts">' +
             '<a class="btn" href="mailto:' + esc(m.email || '') + '">发邮件 ' + ARROW + '</a>' +
             '<a class="btn ghost" href="about.html#contact">其他联系方式</a>' +
@@ -275,15 +275,15 @@
       '<div>' +
         '<span class="weyebrow">ARCHIVE · ' + arcCount + ' 条</span>' +
         '<h2>工作档案</h2>' +
-        '<p>两年跑过的全部活动，按校园、科普、人物、会议等七类归档，每条带稿件数和照片数。' +
-        '上面是挑出来的，这里是全部。</p>' +
+        '<p>2025 年 8 月至 2026 年 10 月任职期间的全部业务活动，按校园、科普、人物、会议等七类归档，' +
+        '每条标注稿件数与照片数。以上为遴选后的代表作，此处为全量记录。</p>' +
       '</div>' +
       '<span class="wgo">看全部 →</span></a>' : '';
 
     $('#main').innerHTML =
       '<header class="phead"><div class="wrap">' +
         '<span class="eyebrow rv"><b>WORK</b><span class="rule"></span>' + total + ' 项</span>' +
-        '<h1 class="t-xl rv" style="--d:.06s">做过的活，<br><em style="font-style:normal;color:var(--red)">都在这儿</em></h1>' +
+        '<h1 class="t-xl rv" style="--d:.06s">作品清单，<br><em style="font-style:normal;color:var(--red)">按类别整理</em></h1>' +
       '</div></header>' +
       '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
         '<div class="windex">' + rows + '</div>' +
@@ -568,23 +568,23 @@
       '</div></section>' : '') +
 
       (tlHtml ? '<section class="sec"><div class="wrap"><div class="sec-head">' +
-        '<div><span class="eyebrow"><b>03</b><span class="rule"></span>经过</span>' +
-        '<h2 class="t-lg" style="margin-top:12px">一条一条走出来的</h2></div>' +
-        '<p class="lead">从工地到政务活动现场，从县城街巷到高山峡谷。' +
-        '下面这些节点，是我把「拍得到」变成「讲得清」的过程。</p></div>' +
+        '<div><span class="eyebrow"><b>03</b><span class="rule"></span>工作经历</span>' +
+        '<h2 class="t-lg" style="margin-top:12px">从工地到政务现场</h2></div>' +
+        '<p class="lead">拍摄对象由建设工地延伸至省市级政务活动，工作范围由县城街巷扩展至高山峡谷。' +
+        '以下节点按时间排列，可以看到拍摄对象、工作内容与职责范围的变化。</p></div>' +
         '<div class="tl">' + tlHtml + '</div>' +
       '</div></section>' : '') +
 
       (awardHtml ? '<section class="sec" style="padding-top:0"><div class="wrap">' +
-        '<span class="eyebrow"><b>04</b><span class="rule"></span>奖项</span>' +
-        '<h2 class="t-lg" style="margin-top:12px;margin-bottom:8px">拿过的一些肯定</h2>' +
+        '<span class="eyebrow"><b>04</b><span class="rule"></span>获奖</span>' +
+        '<h2 class="t-lg" style="margin-top:12px;margin-bottom:8px">获奖与证书</h2>' +
         '<div class="awards">' + awardHtml + '</div>' +
       '</div></section>' : '') +
 
       '<section class="sec" id="contact" style="padding-top:0"><div class="wrap"><div class="cta rv">' +
-        '<h2 class="t-lg">有事找我，<br>直接说就行</h2>' +
-        '<p>项目合作、内容拍摄、活动记录，或者只是想问一句「这个怎么拍」，都可以。' +
-        '邮件一般当天回，忙的时候第二天。</p>' +
+        '<h2 class="t-lg">有合作意向，<br>可以通过邮件联系</h2>' +
+        '<p>项目合作、内容拍摄、活动记录与全职岗位，均可邮件沟通。' +
+        '请附具体需求与时间安排，便于尽快回复，工作日当日答复。</p>' +
         '<div class="acts">' +
           '<a class="btn" href="mailto:' + esc(m.email || '') + '">' + esc(m.email || '写邮件') + ' ' + ARROW + '</a>' +
           (m.wechat ? '<span class="btn ghost" style="cursor:default">微信：' + esc(m.wechat) + '</span>' : '') +
