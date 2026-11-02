@@ -211,3 +211,32 @@ python -m http.server 8123
 
 浏览器打开 <http://localhost:8123/index.html>。
 不要直接双击 html 文件，`file://` 下脚本会被浏览器拦住。
+
+---
+
+## 七、访问记录后台（/admin.html）
+
+线上地址：<https://xiang-bo.top/admin.html>
+
+打开后输一次口令，就能看到最近的访问：时间、IP、地区、看了哪个页面、从哪儿来、设备、新访客还是回访。
+
+### 它怎么工作
+
+- `assets/js/track.js` 在每页加载后往 `/api/track` 发一条记录（只在 `xiang-bo.top` 和 `www.xiang-bo.top` 上发，本地预览不记录）。
+- `api/track.js` 拿到浏览器 IP、Vercel 附带的地区信息、UA，写进 Redis 列表 `xb:v1:visits`，只留最近 5000 条。
+- `api/stats.js` 用口令换取记录，口令是环境变量 `STATS_KEY`，不写在任何文件里。
+- `admin.html` 只是读这个接口，口令存在浏览器 sessionStorage，关掉标签页就没了。
+
+### 第一次要配两样东西（只配一次）
+
+1. Vercel 项目 → **Storage** → Create Database → **Upstash for Redis**（免费额度足够个人站）→ 创建后点 **Connect Project**，选中这个站点。连接后环境变量会自动注入（`KV_REST_API_URL` / `KV_REST_API_TOKEN`，或 `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`，两种都认）。
+2. 项目 → **Settings → Environment Variables** → 新增 `STATS_KEY`，值自己定一串别人猜不到的字符（这就是后台口令）。
+
+配完到 **Deployments** 里挑最新一条，右边 `⋯` → **Redeploy**。之后打开 `/admin.html` 输口令就有数据了。
+
+### 说明
+
+- 只能看到 IP 和地区，看不到「具体是谁」——静态站没有登录，任何人访问都拿不到姓名。IP 是识别同一个人的唯一线索。
+- 想看某个页面被谁看过，在后台用「今天 / 近 7 天 / 全部」筛，或者直接看「页面」那一列。
+- 记录里不含搜索关键词、不含鼠标行为，只有页面地址和来源域名。
+- 以后想停掉：把环境变量删掉就恢复成 503，页面本身不受影响。
