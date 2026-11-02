@@ -314,7 +314,7 @@
   function renderArchive() {
     var A = DATA.archive || {};
     var html = '<h2 class="sect">工作档案</h2>' +
-      '<p class="hint">档案页列的是 2025–2026 跑过的全部活动，条目和数字是照着硬盘里的文件夹生成的，' +
+      '<p class="hint">档案页列的是 2025–2026 的业务活动（内部事务、学习心得一类不放），条目和数字是照着硬盘里的文件夹生成的，' +
       '这里只能改标题、导语和每类的说明。</p>' +
       '<div class="row2">' + fld('时间范围（页头小字）', 'archive.kicker', A.kicker) +
       fld('标题第一行', 'archive.title.0', (A.title || [])[0]) + '</div>' +
