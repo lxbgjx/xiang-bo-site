@@ -123,7 +123,7 @@
 
     var marq = (S.marquee || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
 
-    var feat = byId(S.featured) || (S.projects || []).filter(function (p) { return p.cat === 'project'; })[0];
+    var feat = byId(S.featured) || (S.projects || []).filter(function (p) { return p.cat === 'case'; })[0];
     var featHtml = '';
     if (feat) {
       var facts = (feat.facts || []).map(function (f) { return '<li>' + esc(f.k) + ' · ' + esc(f.v) + '</li>'; }).join('');
@@ -203,9 +203,9 @@
         '<div class="wrap">' +
           '<div class="sec-head">' +
             '<div><span class="eyebrow"><b>02</b><span class="rule"></span>作品分区</span>' +
-            '<h2 class="t-lg" style="margin-top:12px">这几年做的，<br>分成五类放着</h2></div>' +
+            '<h2 class="t-lg" style="margin-top:12px">这几年做的，<br>分成四类放着</h2></div>' +
             '<p class="lead">给区里和学校做过的整案、采访院士和道德模范写的稿子、' +
-            '自己拍自己剪的长片短片，还有会议现场拍的照片。每类单独一页。</p>' +
+            '到过的现场拍下的照片，还有自己拍自己剪的片子。每类单独一页。</p>' +
           '</div>' +
           '<div class="cats">' + catHtml + '</div>' +
         '</div>' +
@@ -268,6 +268,18 @@
         '</div></a>';
     }).join('');
 
+    var arcCount = ((S.archive || {}).groups || []).reduce(function (s, g) {
+      return s + (g.items || []).length;
+    }, 0);
+    var arcHtml = arcCount ? '<a class="arc-entry rv" href="archive.html">' +
+      '<div>' +
+        '<span class="weyebrow">ARCHIVE · ' + arcCount + ' 条</span>' +
+        '<h2>工作档案</h2>' +
+        '<p>两年跑过的全部活动，按校园、科普、人物、会议等七类归档，每条带稿件数和照片数。' +
+        '上面是挑出来的，这里是全部。</p>' +
+      '</div>' +
+      '<span class="wgo">看全部 →</span></a>' : '';
+
     $('#main').innerHTML =
       '<header class="phead"><div class="wrap">' +
         '<span class="eyebrow rv"><b>WORK</b><span class="rule"></span>' + total + ' 项</span>' +
@@ -275,6 +287,7 @@
       '</div></header>' +
       '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
         '<div class="windex">' + rows + '</div>' +
+        arcHtml +
       '</div></section>';
   }
 
@@ -286,9 +299,20 @@
     var cur = null;
     (S.categories || []).forEach(function (c) { if (c.key === cat) cur = c; });
 
+    if (cat === 'people') { renderPeople(cur); return; }
     if (!cur) { renderWorkIndex(S); return; }
 
     var list = (S.projects || []).filter(function (p) { return !cat || p.cat === cat; });
+    /* 现场：会议打头，接着是补的几场，视频合集垫底 */
+    if (cat === 'scene') {
+      var so = ['meeting', 'sc-innovation-40', 'sc-yuan-workshop', 'sc-laoyu', 'activity', 'douyin'];
+      list = list.slice().sort(function (a, b) {
+        var ia = so.indexOf(a.id), ib = so.indexOf(b.id);
+        if (ia < 0) ia = 99;
+        if (ib < 0) ib = 99;
+        return ia - ib;
+      });
+    }
 
     var cards = list.map(function (p, i) {
       return '<a class="card rv" style="--d:' + Math.min(i * 55, 400) + 'ms" ' +
@@ -321,6 +345,41 @@
   }
 
   /* ============================================================
+     人物页：七位一页
+     每人的料就一张现场照加一段话，拆成七个详情页只会得到七个空房间。
+     ============================================================ */
+  function renderPeople(cur) {
+    cur = cur || {};
+    var list = (S.projects || []).filter(function (p) { return p.cat === 'people'; });
+
+    var cards = list.map(function (p, i) {
+      var meta = [p.date, p.role].filter(Boolean).map(function (v) { return esc(v); }).join(' · ');
+      return '<article class="pcard rv" style="--d:' + Math.min(i * 60, 360) + 'ms">' +
+        '<div class="pfig">' +
+          (p.cover ? '<img src="' + esc(p.cover) + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async">' : '') +
+        '</div>' +
+        '<div class="ptxt">' +
+          '<h2>' + esc(p.title) + '</h2>' +
+          (p.honor ? '<p class="prole">' + esc(p.honor) + '</p>' : '') +
+          (p.summary ? '<p class="psum">' + esc(p.summary) + '</p>' : '') +
+          (meta ? '<p class="pmeta">' + meta + '</p>' : '') +
+          (p.ext ? '<a class="pext" href="' + esc(p.ext) + '" target="_blank" rel="noopener">' +
+            '读原文' + (p.extName ? ' · ' + esc(p.extName) : '') + ' <span>↗</span></a>' : '') +
+        '</div></article>';
+    }).join('');
+
+    $('#main').innerHTML =
+      '<header class="phead"><div class="wrap">' +
+        '<span class="eyebrow rv"><b>' + esc(cur.en || 'PEOPLE') + '</b><span class="rule"></span>' + list.length + ' 位</span>' +
+        '<h1 class="t-xl rv" style="--d:.06s">' + allowBr(esc(cur.heading || cur.name || '跟谁聊过')) + '</h1>' +
+        (cur.desc ? '<p class="lead rv" style="--d:.12s">' + esc(cur.desc) + '</p>' : '') +
+      '</div></header>' +
+      '<section style="padding-bottom:clamp(60px,8vw,110px)"><div class="wrap">' +
+        '<div class="pgrid">' + cards + '</div>' +
+      '</div></section>';
+  }
+
+  /* ============================================================
      详情页
      ============================================================ */
   /* 人物页：封面已经在正文上方大图展示过，正文里不重复出现同一张 */
@@ -345,8 +404,10 @@
     var backFile = curCat ? curCat.file : 'work.html';
     var backName = curCat ? curCat.name : '全部作品';
 
-    var idx = list.indexOf(p);
-    var prev = list[idx - 1], next = list[idx + 1];
+    /* 上下篇只在同一个板块里翻，别把影片的上一篇接到人物上 */
+    var siblings = list.filter(function (x) { return x.cat === p.cat; });
+    var idx = siblings.indexOf(p);
+    var prev = siblings[idx - 1], next = siblings[idx + 1];
 
     var metaHtml = [
       { k: '分类', v: catName(p.cat) },
@@ -380,7 +441,7 @@
           '<img src="' + esc(p.cover || '') + '" alt="' + esc(p.title) + '" data-parallax="0.05">' +
         '</div>' +
       '</div>' +
-      '<article class="body-flow">' + renderBlocks(p.cat === 'interview' ? bodyOnly(p) : p.blocks) + '</article>' +
+      '<article class="body-flow">' + renderBlocks(p.cat === 'people' ? bodyOnly(p) : p.blocks) + '</article>' +
       '<div class="wrap" style="max-width:880px">' + pager + '</div>';
 
     // 让正文块也参与动效

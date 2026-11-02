@@ -6,15 +6,17 @@
 ```
 portfolio/
 ├─ index.html        首页
-├─ work.html         全部作品（19 项）
-├─ projects.html     项目经历（3）
-├─ interview.html    人物专访（7）★ 每个人单独一页
-├─ films.html        中长视频（6）
-├─ shorts.html       短视频（2）
-├─ gallery.html      作品图集（1）
+├─ work.html         全部作品（24 项）+ 底部工作档案入口
+├─ cases.html        案例（5）做完一整件事的活
+├─ scenes.html       现场（6）会议、赛场、校园，一场一组照片
+├─ people.html       人物（7）★ 七位一页，不再每人一个详情页
+├─ films.html        影片（6）
+├─ archive.html      工作档案（146 条，七类）
 ├─ project.html      详情页（?id=xxx，所有板块共用）
 ├─ about.html        关于 + 联系
 ├─ editor.html       可视化编辑器（只有你自己用，已加 noindex）
+├─ projects.html / interview.html / gallery.html / shorts.html
+│                    旧地址，只做跳转，内容已并入上面四页
 ├─ robots.txt / sitemap.xml
 └─ assets/
    ├─ css/site.css   全站样式
@@ -22,7 +24,7 @@ portfolio/
    ├─ js/app.js      渲染（不用动）
    ├─ js/motion.js   动效（不用动）
    ├─ js/editor.js   编辑器（不用动）
-   └─ img/           122 张图（webp）
+   └─ img/           图片（webp）
 ```
 
 ---
@@ -75,11 +77,12 @@ window.SITE = {
 
   featured: 'jiang-an',   // 首页「精选」放哪个作品：填 id 或标题都行，留空则默认第一个
 
-  categories: [ { key:'project', name:'项目经历', en:'PROJECTS', file:'projects.html', desc:'…' } ],
+  categories: [ { key:'case', name:'案例', en:'CASE', file:'cases.html', desc:'…' } ],
+  // 四类：case 案例 / scene 现场 / people 人物 / film 影片，数组顺序就是导航顺序
 
   projects: [
     {
-      id:'jiang-an', cat:'project', title:'江岸之光 · 五育润心',
+      id:'jiang-an', cat:'case', title:'江岸之光 · 五育润心',
       en:'…', date:'2026.03', cover:'assets/img/xx.webp', cw:1500, ch:844,
       summary:'列表卡片上的一句话', role:'策划 · 采写 · 摄影',
       facts:[{k:'周期',v:'2026.3 — 2026.12'}],
@@ -141,7 +144,7 @@ window.SITE = {
 
 ## 三、加一个人物 / 加一个作品
 
-**加人物（最快）**：在编辑器 →「作品列表」→ 底部 **＋ 新增一个作品**，分类选「人物专访」，
+**加人物（最快）**：在编辑器 →「作品列表」→ 底部 **＋ 新增一个作品**，分类选「人物」，
 填姓名、身份（honor）、原文链接（ext）、封面图，再点「＋ 添加正文块」放照片。
 
 **加作品**：同上，分类选对应的板块。

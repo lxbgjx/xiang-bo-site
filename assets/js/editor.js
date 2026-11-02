@@ -229,8 +229,8 @@
           '</div>' +
           area('一句话摘要（列表卡片上显示）', 'projects.' + i + '.summary', p.summary, 2) +
           fld('我的角色', 'projects.' + i + '.role', p.role) +
-          (p.cat === 'interview' || p.honor ? fld('身份 / 职称（显示在标题下面）', 'projects.' + i + '.honor', p.honor || '') : '') +
-          (p.cat === 'interview' || p.ext ? '<div class="row2">' +
+          (p.cat === 'people' || p.honor ? fld('身份 / 职称（显示在标题下面）', 'projects.' + i + '.honor', p.honor || '') : '') +
+          (p.cat === 'people' || p.ext ? '<div class="row2">' +
             fld('原文链接（留空则不显示按钮）', 'projects.' + i + '.ext', p.ext || '') +
             fld('发布方（如 湖北省科协）', 'projects.' + i + '.extName', p.extName || '') +
           '</div>' : '') +
@@ -471,7 +471,7 @@
         break;
       case 'p-add':
         DATA.projects.push({
-          id: 'new-' + Date.now().toString(36), cat: 'project', title: '新作品', en: '',
+          id: 'new-' + Date.now().toString(36), cat: 'case', title: '新作品', en: '',
           date: new Date().getFullYear() + '.' + String(new Date().getMonth() + 1).padStart(2, '0'),
           cover: '', summary: '', role: '', facts: [], blocks: [{ t: 'p', html: '在这里写内容。' }]
         });

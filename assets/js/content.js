@@ -73,50 +73,42 @@ window.SITE = {
  ],
  "categories": [
   {
-   "key": "project",
-   "name": "项目经历",
-   "en": "PROJECTS",
-   "file": "projects.html",
-  "heading": "做完的项目，<br>都在这儿",
-  "desc": "江岸区 15 所中小学的校园文化品牌，2025 年 7 月做到现在；2025、2026 两年的全国科普月，跑了八个现场；另外两个是省市场监管局的宣传照和 2024 年春晚现场记录。"
+   "key": "case",
+   "name": "案例",
+   "en": "CASE",
+   "file": "cases.html",
+   "heading": "做完的事，<br>都在这儿",
+   "desc": "江岸区 15 所学校的校园文化品牌，2025 年 7 月做到现在；2025、2026 两年的全国科普月，跑了八个现场；另外两个是省市场监管局的宣传照，和 2024 年春晚的现场记录。"
   },
   {
-   "key": "interview",
-   "name": "人物专访",
-   "en": "INTERVIEWS",
-   "file": "interview.html",
-   "desc": "七位受访者，照片都是现场拍的，每页底下有发出去的原文链接。"
+   "key": "scene",
+   "name": "现场",
+   "en": "SCENE",
+   "file": "scenes.html",
+   "heading": "到过的现场",
+   "desc": "会议、赛场、校园，一场一组照片，有几场还带着快剪。照片是现场直接拍的，不是通稿配图。"
   },
   {
-   "key": "gallery",
-   "name": "作品图集",
-   "en": "GALLERY",
-   "file": "gallery.html",
-   "heading": "现场拍下来的",
-   "desc": "按场次整组放。目前只有会议类：省科协新闻发布会、市政府「新春第一会」、全省科普工作会议、脑机接口论坛。"
-  },
-  {
-   "key": "short",
-   "name": "短视频",
-   "en": "SHORTS",
-   "file": "shorts.html",
-   "heading": "三分钟以内",
-   "desc": "省级赛事的快剪和集锦，还有运营「湖北市场监管」抖音号、「科技大武汉」视频号期间发的东西。"
+   "key": "people",
+   "name": "人物",
+   "en": "PEOPLE",
+   "file": "people.html",
+   "heading": "跟谁聊过",
+   "desc": "七位，院士、医生、道德模范、企业负责人。照片都在现场拍的，每个人底下有发出去的原文。"
   },
   {
    "key": "film",
-   "name": "中长视频（学生时期）",
-   "en": "FILMS",
+   "name": "影片",
+   "en": "FILM",
    "file": "films.html",
    "heading": "十几分钟的片子",
    "desc": "六部，2021 到 2024 年拍的。纪录片两部、剧情短片三部、茶文化科普微课一部。"
   }
-
  ],
  "projects": [
   {
    "id": "jiang-an",
-   "cat": "project",
+   "cat": "case",
    "order": 1,
    "title": "江岸之光 · 五育润心",
    "en": "JIANG'AN LIGHT",
@@ -605,7 +597,7 @@ window.SITE = {
   },
   {
    "id": "kp-2026",
-   "cat": "project",
+   "cat": "case",
    "order": 11,
    "title": "2026 全国科普月",
    "en": "SCIENCE POPULARIZATION MONTH",
@@ -767,7 +759,7 @@ window.SITE = {
   },
   {
    "id": "kp-2025",
-   "cat": "project",
+   "cat": "case",
    "order": 12,
    "title": "2025 全国科普月",
    "en": "THE FIRST SCIENCE MONTH",
@@ -888,7 +880,7 @@ window.SITE = {
   },
   {
    "id": "p-dengjiake",
-   "cat": "interview",
+   "cat": "people",
    "order": 2,
    "title": "邓家科",
    "en": "DENG JIAKE",
@@ -930,7 +922,7 @@ window.SITE = {
   },
   {
    "id": "p-yangzhifang",
-   "cat": "interview",
+   "cat": "people",
    "order": 3,
    "title": "杨志方",
    "en": "YANG ZHIFANG",
@@ -965,7 +957,7 @@ window.SITE = {
   },
   {
    "id": "p-chenweizhong",
-   "cat": "interview",
+   "cat": "people",
    "order": 4,
    "title": "陈卫忠",
    "en": "CHEN WEIZHONG",
@@ -1000,7 +992,7 @@ window.SITE = {
   },
   {
    "id": "p-chenxiaoping",
-   "cat": "interview",
+   "cat": "people",
    "order": 5,
    "title": "陈孝平",
    "en": "CHEN XIAOPING",
@@ -1035,7 +1027,7 @@ window.SITE = {
   },
   {
    "id": "p-longlehao",
-   "cat": "interview",
+   "cat": "people",
    "order": 6,
    "title": "龙乐豪",
    "en": "LONG LEHAO",
@@ -1070,7 +1062,7 @@ window.SITE = {
   },
   {
    "id": "p-dengzixin",
-   "cat": "interview",
+   "cat": "people",
    "order": 7,
    "title": "邓子新",
    "en": "DENG ZIXIN",
@@ -1112,7 +1104,7 @@ window.SITE = {
   },
   {
    "id": "p-wangzhengyan",
-   "cat": "interview",
+   "cat": "people",
    "order": 8,
    "title": "王争艳",
    "en": "WANG ZHENGYAN",
@@ -1147,7 +1139,7 @@ window.SITE = {
   },
   {
    "id": "hubei-photo",
-   "cat": "project",
+   "cat": "case",
    "order": 9,
    "title": "宣传教育中心宣传照",
    "en": "PUBLICITY PHOTOS",
@@ -1215,7 +1207,7 @@ window.SITE = {
   },
   {
    "id": "hubei-gala",
-   "cat": "project",
+   "cat": "case",
    "order": 10,
    "title": "湖北省市场监管局春晚（2024）",
    "en": "SPRING FESTIVAL GALA 2024",
@@ -1791,7 +1783,7 @@ window.SITE = {
   },
   {
    "id": "activity",
-   "cat": "short",
+   "cat": "scene",
    "order": 17,
    "title": "活动类视频",
    "en": "EVENT HIGHLIGHTS",
@@ -1867,7 +1859,7 @@ window.SITE = {
   },
   {
    "id": "douyin",
-   "cat": "short",
+   "cat": "scene",
    "order": 18,
    "title": "视频号 · 抖音",
    "en": "SHORT VIDEO",
@@ -1962,7 +1954,7 @@ window.SITE = {
   },
   {
    "id": "meeting",
-   "cat": "gallery",
+   "cat": "scene",
    "order": 19,
    "title": "会议类",
    "en": "CONFERENCES",
@@ -2050,6 +2042,81 @@ window.SITE = {
    ],
    "cw": 1080,
    "ch": 538
+  },
+  {
+   "id": "sc-innovation-40",
+   "cat": "scene",
+   "title": "武汉市第 40 届青少年科技创新大赛",
+   "date": "2026.02",
+   "role": "摄影 · 报道",
+   "cover": "assets/img/sc-40th-1.webp",
+   "summary": "全市选拔赛，展台在体育馆里一字排开，学生站在自己项目前面等人来问。",
+   "blocks": [
+    {
+     "t": "p",
+     "x": "第 40 届，各区选上来的项目集中评比。展台前面一直没断过人。"
+    },
+    {
+     "t": "gal",
+     "srcs": [
+      "assets/img/sc-40th-2.webp",
+      "assets/img/sc-40th-3.webp",
+      "assets/img/sc-40th-4.webp",
+      "assets/img/sc-40th-5.webp"
+     ],
+     "cap": "展台前，学生在演示自己的项目。"
+    }
+   ]
+  },
+  {
+   "id": "sc-yuan-workshop",
+   "cat": "scene",
+   "title": "江城院士科普工作室推进会",
+   "date": "2026.01",
+   "role": "摄影 · 报道",
+   "cover": "assets/img/sc-yuan-3.webp",
+   "summary": "各家工作室上台讲进展，台下坐满。会开了一上午。",
+   "blocks": [
+    {
+     "t": "p",
+     "x": "推进会。一个接一个上台讲，从工作室建起来到现在的进展。"
+    },
+    {
+     "t": "gal",
+     "srcs": [
+      "assets/img/sc-yuan-1.webp",
+      "assets/img/sc-yuan-2.webp",
+      "assets/img/sc-yuan-4.webp",
+      "assets/img/sc-yuan-5.webp"
+     ],
+     "cap": "会场，发言在台上，听众在前排。"
+    }
+   ]
+  },
+  {
+   "id": "sc-laoyu",
+   "cat": "scene",
+   "title": "思政课 · 劳育活动",
+   "date": "2026.05",
+   "role": "摄影 · 报道",
+   "cover": "assets/img/sc-laoyu-3.webp",
+   "summary": "五育里的劳育，课不在教室上，在实践基地的地里。",
+   "blocks": [
+    {
+     "t": "p",
+     "x": "思政课四个环节里的劳育，落地在实践基地。学生分批下地。"
+    },
+    {
+     "t": "gal",
+     "srcs": [
+      "assets/img/sc-laoyu-1.webp",
+      "assets/img/sc-laoyu-2.webp",
+      "assets/img/sc-laoyu-4.webp",
+      "assets/img/sc-laoyu-5.webp"
+     ],
+     "cap": "翻土、栽苗、浇水，一组一组轮着来。"
+    }
+   ]
   }
  ],
  "archive": {
