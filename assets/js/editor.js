@@ -152,7 +152,8 @@
   var TYPES = [
     { v: 'p', t: '段落' }, { v: 'h2', t: '小标题' }, { v: 'h3', t: '次标题' },
     { v: 'img', t: '图片' }, { v: 'gal', t: '图组' }, { v: 'quote', t: '引用' },
-    { v: 'list', t: '列表' }, { v: 'table', t: '表格' }, { v: 'embed', t: '视频嵌入' }, { v: 'hr', t: '分隔线' }
+    { v: 'list', t: '列表' }, { v: 'table', t: '表格' },
+    { v: 'video', t: '本机视频' }, { v: 'embed', t: '外站嵌入' }, { v: 'hr', t: '分隔线' }
   ];
 
   function blockEditor(pi, bi, b) {
@@ -171,6 +172,11 @@
       inner = '<div style="font-size:12px;color:var(--muted);padding:4px 0">一条分隔线，无需设置。</div>';
     } else if (b.t === 'embed') {
       inner = fld('视频地址', base + '.src', b.src);
+    } else if (b.t === 'video') {
+      inner = fld('视频地址（本地路径或直链）', base + '.src', b.src) +
+        imgF('封面图（可留空）', base + '.poster', b.poster) +
+        fld('图注（可留空）', base + '.cap', b.cap) +
+        fld('画幅比例（默认 16 / 9，竖屏填 9 / 16）', base + '.ratio', b.ratio);
     } else if (b.t === 'h2' || b.t === 'h3') {
       inner = fld('标题文字', base + '.x', b.x);
     } else {
@@ -178,8 +184,12 @@
         '<textarea class="inp" rows="4" data-path="' + base + '.html">' + esc(b.html || b.x || '') + '</textarea></div>';
     }
     var brief = b.t === 'img' ? (b.cap || b.src || '') : (b.x || (b.html || '').replace(/<[^>]+>/g, '') || (b.srcs || []).join(', '));
+    var typeSel = '<select class="ty" data-blocktype="1" data-pi="' + pi + '" data-bi="' + bi + '">' +
+      TYPES.map(function (o) {
+        return '<option value="' + o.v + '"' + (o.v === b.t ? ' selected' : '') + '>' + o.t + '</option>';
+      }).join('') + '</select>';
     return '<div class="blk"><div class="bh">' +
-      '<span class="ty">' + esc(b.t) + '</span>' +
+      typeSel +
       '<span class="sm">' + esc(String(brief).slice(0, 60)) + '</span>' +
       '<span class="acts">' +
         '<button data-act="blk-up" data-pi="' + pi + '" data-bi="' + bi + '">↑</button>' +
@@ -301,6 +311,32 @@
     $('#panel').innerHTML = html;
   }
 
+  function renderArchive() {
+    var A = DATA.archive || {};
+    var html = '<h2 class="sect">工作档案</h2>' +
+      '<p class="hint">档案页列的是 2025–2026 跑过的全部活动，条目和数字是照着硬盘里的文件夹生成的，' +
+      '这里只能改标题、导语和每类的说明。</p>' +
+      '<div class="row2">' + fld('时间范围（页头小字）', 'archive.kicker', A.kicker) +
+      fld('标题第一行', 'archive.title.0', (A.title || [])[0]) + '</div>' +
+      fld('标题第二行（红色）', 'archive.title.1', (A.title || [])[1]) +
+      area('导语', 'archive.intro', A.intro, 3) +
+      area('页尾说明', 'archive.note', A.note, 2);
+
+    (A.groups || []).forEach(function (g, i) {
+      html += '<div class="card open" style="margin-top:10px"><div class="ch">' +
+        '<span class="k">' + esc(g.k) + '</span>' +
+        '<span class="t">' + esc(g.name) + '</span>' +
+        '<span class="cat">' + (g.items || []).length + ' 项</span></div><div class="cb">' +
+        '<div class="row2">' + fld('类目名', 'archive.groups.' + i + '.name', g.name) +
+        fld('英文小字', 'archive.groups.' + i + '.en', g.en) + '</div>' +
+        area('说明', 'archive.groups.' + i + '.desc', g.desc, 2) + '</div></div>';
+    });
+
+    html += '<p class="hint" style="margin-top:16px">想加新活动，需要改 content.js 里的 <code>archive.groups</code>，' +
+      '或者让对方把文件夹给我，我重新生成一次。</p>';
+    $('#panel').innerHTML = html;
+  }
+
   function renderHelp() {
     $('#panel').innerHTML = '<h2 class="sect">改完怎么发布</h2>' +
       '<p class="hint">网站是纯静态的，全站文字都存在 <code>assets/js/content.js</code> 这一个文件里。' +
@@ -340,11 +376,32 @@
     else if (page === 'home') renderHome();
     else if (page === 'work') renderWork();
     else if (page === 'about') renderAbout();
+    else if (page === 'archive') renderArchive();
     else if (page === 'extra') renderExtra();
     else renderHelp();
   }
 
   /* ---------- 事件 ---------- */
+  document.addEventListener('change', function (e) {
+    var sel = e.target;
+    if (!sel.getAttribute || !sel.getAttribute('data-blocktype')) return;
+    var pi = Number(sel.getAttribute('data-pi'));
+    var bi = Number(sel.getAttribute('data-bi'));
+    var blk = DATA.projects[pi] && DATA.projects[pi].blocks[bi];
+    var nt = sel.value;
+    if (!blk || blk.t === nt) return;
+    var nb = { t: nt };
+    if (nt === 'hr') { DATA.projects[pi].blocks[bi] = nb; markDirty(); render(); return; }
+    ['html', 'x', 'src', 'cap', 'srcs', 'poster', 'ratio', 'head', 'rows'].forEach(function (k) {
+      if (blk[k] !== undefined && blk[k] !== '') nb[k] = blk[k];
+    });
+    if (nt === 'h2' || nt === 'h3') { if (!nb.x) nb.x = (blk.html || '').replace(/<[^>]+>/g, ''); delete nb.html; }
+    if (nt === 'p' || nt === 'quote' || nt === 'note') { if (!nb.html && blk.x) nb.html = blk.x; }
+    DATA.projects[pi].blocks[bi] = nb;
+    markDirty();
+    render();
+  });
+
   document.addEventListener('input', function (e) {
     var t = e.target, path = t.getAttribute('data-path');
     if (!path) return;

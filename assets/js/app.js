@@ -92,6 +92,14 @@
         case 'embed':
           return '<div class="embed"><iframe src="' + esc(b.src) + '" loading="lazy" allowfullscreen ' +
             'allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>';
+        case 'video':
+          var ratio = b.ratio || '16 / 9';
+          return '<figure class="fig vidfig">' +
+            '<video controls playsinline preload="none" controlslist="nodownload noplaybackrate" ' +
+            'disablepictureinpicture oncontextmenu="return false" ' +
+            (b.poster ? 'poster="' + esc(b.poster) + '" ' : '') +
+            'src="' + esc(b.src) + '" style="aspect-ratio:' + ratio + '"></video>' +
+            (b.cap ? '<figcaption>' + esc(b.cap) + '</figcaption>' : '') + '</figure>';
         default: return '';
       }
     }).join('');
@@ -386,6 +394,63 @@
   }
 
   /* ============================================================
+     工作档案
+     ============================================================ */
+  function renderArchive() {
+    var A = S.archive || {};
+    var groups = A.groups || [];
+    var num = function (n) { return Number(n || 0).toLocaleString('en-US'); };
+
+    var stats = (A.stats || []).map(function (s) {
+      return '<div><b>' + esc(s.v) + '</b><span>' + esc(s.k) + '</span></div>';
+    }).join('');
+
+    var body = groups.map(function (g, gi) {
+      var items = g.items || [];
+      var doc = items.reduce(function (a, i) { return a + (i.d || 0); }, 0);
+      var img = items.reduce(function (a, i) { return a + (i.p || 0); }, 0);
+      var lastY = '';
+      var lis = items.map(function (it) {
+        var head = '';
+        if (it.y !== lastY) { head = '<li class="ayear">' + esc(it.y) + '</li>'; lastY = it.y; }
+        var cnt = [];
+        if (it.d) cnt.push(it.d + ' 稿');
+        if (it.p) cnt.push(it.p + ' 图');
+        if (it.v) cnt.push(it.v + ' 段');
+        return head + '<li><span class="ad">' + esc(it.date || '') + '</span>' +
+          '<span class="an">' + esc(it.n) + '</span>' +
+          '<span class="ac">' + cnt.join(' · ') + '</span></li>';
+      }).join('');
+
+      return '<article class="agroup rv" style="--d:' + Math.min(gi * 55, 300) + 'ms">' +
+        '<div class="agtop">' +
+          '<div class="agimg"><img src="' + esc(g.img || '') + '" alt="' + esc(g.name) + '" loading="lazy" decoding="async"></div>' +
+          '<div class="aghead">' +
+            '<span class="agk"><b>' + esc(g.k) + '</b>' + esc(g.en || '') + '</span>' +
+            '<h2>' + esc(g.name) + '</h2>' +
+            '<p>' + esc(g.desc || '') + '</p>' +
+            '<span class="agstat">' + items.length + ' 个活动 · ' + doc + ' 份稿件 · ' + num(img) + ' 张照片</span>' +
+          '</div>' +
+        '</div>' +
+        '<ul class="alist">' + lis + '</ul>' +
+      '</article>';
+    }).join('');
+
+    var t = A.title || [];
+    $('#main').innerHTML =
+      '<header class="phead"><div class="wrap">' +
+        '<span class="eyebrow rv"><b>ARCHIVE</b><span class="rule"></span>' + esc(A.kicker || '') + '</span>' +
+        '<h1 class="t-xl rv" style="--d:.06s">' + esc(t[0] || '') + '<br><em class="azed">' + esc(t[1] || '') + '</em></h1>' +
+        (A.intro ? '<p class="lead rv" style="--d:.1s">' + esc(A.intro) + '</p>' : '') +
+        '<div class="astats rv" style="--d:.14s">' + stats + '</div>' +
+      '</div></header>' +
+      '<section class="archwrap"><div class="wrap">' +
+        body +
+        (A.note ? '<p class="anote">' + esc(A.note) + '</p>' : '') +
+      '</div></section>';
+  }
+
+  /* ============================================================
      关于页
      ============================================================ */
   function renderAbout() {
@@ -471,6 +536,7 @@
     if (page === 'home') renderHome();
     else if (page === 'work') renderList();
     else if (page === 'project') renderDetail();
+    else if (page === 'archive') renderArchive();
     else if (page === 'about') renderAbout();
   } catch (err) {
     console.error('[render]', err);
