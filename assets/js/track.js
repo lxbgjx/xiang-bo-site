@@ -34,18 +34,20 @@
       w: window.innerWidth || 0,
       lg: navigator.language || ''
     });
-    try {
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon('/api/track', new Blob([body], { type: 'application/json' }));
-        return;
-      }
-    } catch (e) {}
+
+    /* text/plain 属于简单请求，不会触发预检；服务端只按字符串解析 JSON */
+    function beacon() {
+      try {
+        if (navigator.sendBeacon) navigator.sendBeacon('/api/track', body);
+      } catch (e) {}
+    }
+
     try {
       fetch('/api/track', {
         method: 'POST', body: body, keepalive: true,
-        headers: { 'content-type': 'application/json' }
-      });
-    } catch (e) {}
+        headers: { 'content-type': 'text/plain;charset=UTF-8' }
+      }).catch(beacon);
+    } catch (e) { beacon(); }
   }
 
   if (document.readyState === 'complete') setTimeout(send, 250);
