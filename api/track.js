@@ -81,11 +81,29 @@ module.exports = async (req, res) => {
   const p = cut(b.p, 300);
   if (!p || p.indexOf('/api/') === 0) return res.status(204).end();
 
+  const sid = cut(b.sid, 60);
+
+  /* 停留上报：只追加一条时长记录，不计入累计访问，避免把 PV 算重 */
+  if (b.ty === 'dw') {
+    const d = Math.min(Math.max(Math.round(Number(b.d) || 0), 0), 7200);
+    if (!sid || d < 2) return res.status(204).end();
+    try {
+      await redis(url, token, [
+        ['LPUSH', LIST, JSON.stringify({ t: Date.now(), ty: 'dw', sid: sid, v: cut(b.v, 40), p: p, d: d })],
+        ['LTRIM', LIST, '0', String(MAX - 1)]
+      ]);
+    } catch (e) {
+      return res.status(502).json({ ok: false, error: 'storage_error' });
+    }
+    return res.status(204).end();
+  }
+
   const ua = cut(req.headers['user-agent'], 300);
   const ip = cut((req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress, 60);
 
   const rec = {
     t: Date.now(),
+    ty: 'pv',
     p: p,
     r: cut(b.r, 200),
     ip: ip,
@@ -95,10 +113,13 @@ module.exports = async (req, res) => {
     dv: device(ua),
     br: browser(ua),
     v: cut(b.v, 40),
+    sid: sid,
     n: b.n ? 1 : 0,
     w: Number(b.w) || 0,
     lg: cut(b.lg, 12)
   };
+  const ti = cut(b.ti, 80);
+  if (ti) rec.ti = ti;
 
   try {
     await redis(url, token, [

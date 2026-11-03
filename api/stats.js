@@ -53,13 +53,32 @@ module.exports = async (req, res) => {
   const limit = Math.min(Math.max(Number(q.get('limit')) || 500, 1), 2000);
 
   try {
+    /* 列表里混着停留记录，多取一倍再合并，保证返回条数够用 */
     const r = await redis(url, token, [
-      ['LRANGE', LIST, '0', String(limit - 1)],
+      ['LRANGE', LIST, '0', String(Math.min(limit * 2, 3000))],
       ['GET', TOTAL]
     ]);
     const raw = (r[0] && r[0].result) || [];
     const total = Number((r[1] && r[1].result) || 0);
-    const visits = raw.map(s => { try { return JSON.parse(s); } catch (e) { return null; } }).filter(Boolean);
+    const rows = raw.map(s => { try { return JSON.parse(s); } catch (e) { return null; } }).filter(Boolean);
+
+    /* 同一次浏览可能上报多次停留（切标签页、关页面），取最大值 */
+    const dur = Object.create(null);
+    for (const v of rows) {
+      if (v.ty === 'dw' && v.sid) {
+        const d = Number(v.d) || 0;
+        if (d > (dur[v.sid] || 0)) dur[v.sid] = d;
+      }
+    }
+
+    const visits = [];
+    for (const v of rows) {
+      if (v.ty === 'dw') continue;
+      if (v.sid && dur[v.sid]) v.d = dur[v.sid];
+      visits.push(v);
+      if (visits.length >= limit) break;
+    }
+
     return res.status(200).json({ ok: true, total: total, count: visits.length, visits: visits });
   } catch (e) {
     return res.status(502).json({ ok: false, error: 'storage_error' });

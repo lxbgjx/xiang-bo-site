@@ -30,10 +30,10 @@
   .pin input:focus{outline:none;border-color:var(--ink);}
   .hint{font-size:13px;color:var(--ink-3);line-height:1.7;}
   .hint code{font-family:var(--mono);font-size:12px;background:var(--paper-2);padding:2px 6px;border-radius:2px;}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
     margin:24px 0 30px;border-radius:3px;overflow:hidden;}
-  .stats div{background:var(--white);padding:20px 18px;}
-  .stats b{display:block;font-family:var(--serif);font-size:clamp(26px,3vw,36px);font-weight:600;line-height:1;}
+  .stats div{background:var(--white);padding:20px 16px;}
+  .stats b{display:block;font-family:var(--serif);font-size:clamp(22px,2.5vw,31px);font-weight:600;line-height:1;white-space:nowrap;}
   .stats span{display:block;margin-top:8px;font-size:12px;color:var(--ink-3);letter-spacing:.02em;}
   .wrap-tbl{background:var(--white);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
@@ -42,9 +42,12 @@
   tbody td{padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle;}
   tbody tr:last-child td{border-bottom:none;}
   tbody tr:hover{background:rgba(23,24,27,.018);}
-  .mono{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);}
-  .page{font-weight:600;color:var(--ink);}
-  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--paper-2);color:var(--ink-3);}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap;}
+  .page{font-weight:600;color:var(--ink);word-break:break-all;}
+  .dur{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap;}
+  .dur b{color:var(--ink);font-weight:600;}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--paper-2);color:var(--ink-3);white-space:nowrap;}
+  .reg,.dev,.dur{white-space:nowrap;}
   .pill.new{background:rgba(178,58,46,.1);color:var(--red);}
   .empty{padding:60px 20px;text-align:center;color:var(--ink-3);font-size:14px;}
   .foot{margin-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);}
@@ -55,6 +58,7 @@
   .err li{margin:4px 0;}
   @media (max-width:760px){
     .stats{grid-template-columns:repeat(2,1fr);}
+    .stats div:last-child{grid-column:1/-1;}
     thead{display:none;}
     tbody tr{display:block;padding:14px 14px 10px;border-bottom:1px solid var(--line);}
     tbody td{display:block;padding:3px 0;border:none;}
@@ -69,7 +73,7 @@
     <div>
       <span class="tagline">xiang-bo.top / admin</span>
       <h1>访问记录</h1>
-      <p class="sub">谁在什么时候打开过这里，看了哪个页面，从哪儿来的。</p>
+      <p class="sub">谁在什么时候打开过这里，看了哪个页面、待了多久、从哪儿来的。</p>
     </div>
     <div class="toolbar">
       <button class="btn ghost" id="fAll">全部</button>
@@ -92,6 +96,7 @@
       <div><b id="sToday">0</b><span>今日访问</span></div>
       <div><b id="sUv">0</b><span>今日访客（按 IP 去重）</span></div>
       <div><b id="s7">0</b><span>近 7 天访问</span></div>
+      <div><b id="sAvg">—</b><span>今日平均停留</span></div>
       <div><b id="sTotal">0</b><span>累计访问</span></div>
     </div>
 
@@ -99,7 +104,7 @@
       <table>
         <thead>
           <tr>
-            <th>时间</th><th>IP</th><th>地区</th><th>页面</th><th>来源</th><th>设备</th><th>访客</th>
+            <th>时间</th><th>IP</th><th>地区</th><th>页面 / 作品</th><th>停留</th><th>来源</th><th>设备</th><th>访客</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -109,7 +114,7 @@
 
     <div class="foot">
       <span id="meta">—</span>
-      <span>每 30 秒自动刷新 · 只保留最近 5000 条</span>
+      <span>每 30 秒自动刷新 · 只保留最近 5000 条 · 停留不足 2 秒不计</span>
     </div>
   </div>
 </div>
@@ -129,7 +134,7 @@
   function fmtTime(t) {
     var d = new Date(t);
     var p = function (n) { return n < 10 ? '0' + n : '' + n; };
-    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' +
+    return p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' +
       p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
   }
 
@@ -147,6 +152,28 @@
     return a.length ? a.join(' · ') : '—';
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* 停留时长：不足一分钟按秒，超过按分秒 */
+  function fmtDur(s) {
+    var n = Math.round(Number(s) || 0);
+    if (n < 1) return '—';
+    if (n < 60) return n + ' 秒';
+    var m = Math.floor(n / 60);
+    var r = n % 60;
+    return m + ' 分' + (r ? ' ' + r + ' 秒' : '');
+  }
+
+  /* 作品详情页显示作品名，其余显示页面路径 */
+  function pageCell(v) {
+    if (v.ti) return '<span class="pill">作品</span> ' + esc(v.ti);
+    return esc(v.p || '—');
+  }
+
   function showMsg(html) { $('#msg').innerHTML = html || ''; }
 
   function render() {
@@ -161,25 +188,34 @@
     $('#s7').textContent = all.filter(function (v) { return v.t >= dayStart(6); }).length;
     $('#sTotal').textContent = total.toLocaleString('en-US');
 
+    /* 只统计有停留数据的记录，页面上待不到 2 秒的不参与平均 */
+    var timed = today.filter(function (v) { return v.d > 0; });
+    var avg = timed.length
+      ? timed.reduce(function (a, v) { return a + v.d; }, 0) / timed.length
+      : 0;
+    $('#sAvg').textContent = avg ? fmtDur(avg) : '—';
+
     $('#rows').innerHTML = list.map(function (v) {
       return '<tr>' +
-        '<td data-l="时间" class="mono">' + fmtTime(v.t) + '</td>' +
+        '<td data-l="时间" class="mono" title="' + new Date(v.t).toLocaleString('zh-CN') + '">' + fmtTime(v.t) + '</td>' +
         '<td data-l="IP" class="mono">' + (v.ip || '—') + '</td>' +
-        '<td data-l="地区">' + region(v) + '</td>' +
-        '<td data-l="页面" class="page">' + (v.p || '—') + '</td>' +
-        '<td data-l="来源">' + (v.r || '直接打开') + '</td>' +
-        '<td data-l="设备">' + (v.dv || '—') + ' · ' + (v.br || '—') + '</td>' +
+        '<td data-l="地区" class="reg">' + region(v) + '</td>' +
+        '<td data-l="页面" class="page">' + pageCell(v) + '</td>' +
+        '<td data-l="停留" class="dur">' + fmtDur(v.d) + '</td>' +
+        '<td data-l="来源">' + esc(v.r || '直接打开') + '</td>' +
+        '<td data-l="设备" class="dev">' + esc((v.dv || '—') + ' · ' + (v.br || '—')) + '</td>' +
         '<td data-l="访客"><span class="pill' + (v.n ? ' new' : '') + '">' + (v.n ? '新访客' : '回访') + '</span></td>' +
         '</tr>';
     }).join('');
 
     $('#empty').hidden = list.length > 0;
-    $('#meta').textContent = '当前显示 ' + list.length + ' 条 · 已载入最近 ' + all.length + ' 条';
+    $('#meta').textContent = '当前显示 ' + list.length + ' 条 · 已载入最近 ' + all.length + ' 条' +
+      (timed.length ? ' · 今日平均停留 ' + fmtDur(avg) : '');
   }
 
   function load() {
     if (!key()) { $('#pin').hidden = false; $('#panel').hidden = true; return; }
-    fetch('/api/stats?limit=800', { headers: { 'x-stats-key': key() }, cache: 'no-store' })
+    fetch('/api/stats?limit=600', { headers: { 'x-stats-key': key() }, cache: 'no-store' })
       .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
       .then(function (o) {
         if (o.s === 401) {
