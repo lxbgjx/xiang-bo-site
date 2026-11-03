@@ -6,6 +6,13 @@ const LIST = 'xb:v1:visits';
 const TOTAL = 'xb:v1:total';
 
 function conf() {
+  // Vercel 连 Upstash 时可自定义前缀，KV_ / STORAGE_ / UPSTASH_ 都认
+  const PREFIXES = ['KV', 'STORAGE', 'UPSTASH_REDIS', 'UPSTASH'];
+  for (const p of PREFIXES) {
+    const url = String(process.env[p + '_REST_API_URL'] || '').replace(/\/+$/, '');
+    const token = process.env[p + '_REST_API_TOKEN'] || '';
+    if (url && token) return { url, token };
+  }
   return {
     url: String(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '').replace(/\/+$/, ''),
     token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ''
