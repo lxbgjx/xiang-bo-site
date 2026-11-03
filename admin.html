@@ -23,11 +23,21 @@
   .btn:hover{opacity:.82;}
   .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
   .btn.ghost.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
-  .pin{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--white);border:1px solid var(--line);
-    padding:18px;border-radius:3px;}
-  .pin input{font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--line);background:var(--paper);
-    border-radius:2px;min-width:220px;color:var(--ink);}
-  .pin input:focus{outline:none;border-color:var(--ink);}
+  .gate{display:flex;justify-content:center;padding:clamp(16px,7vh,72px) 0 0;}
+  .gate-card{width:100%;max-width:440px;background:var(--white);border:1px solid var(--line);
+    border-radius:4px;padding:30px 26px 24px;box-shadow:0 2px 16px rgba(23,24,27,.05);}
+  .gate-card h2{font-family:var(--serif);font-size:24px;font-weight:600;margin:10px 0 10px;letter-spacing:-.01em;}
+  .gate-card > p{font-size:13.5px;line-height:1.75;color:var(--ink-3);margin:0 0 18px;}
+  .gate-card form{display:flex;gap:10px;}
+  .gate-card input{flex:1 1 auto;min-width:0;font:inherit;font-size:15px;padding:11px 13px;
+    border:1px solid var(--line);background:var(--paper);border-radius:2px;color:var(--ink);letter-spacing:.04em;}
+  .gate-card input:focus{outline:none;border-color:var(--ink);background:var(--white);}
+  .gate-err{margin:14px 0 0!important;padding:10px 12px;border-left:3px solid var(--red);
+    background:rgba(178,58,46,.07);color:var(--red);font-size:13px;line-height:1.6;}
+  .gate-tip{margin:16px 0 0!important;font-size:12.5px;color:var(--muted);line-height:1.65;}
+  .gate-tip code{font-family:var(--mono);font-size:11.5px;background:var(--paper-2);padding:2px 5px;border-radius:2px;}
+  .gate-card .btn{flex:0 0 auto;padding:11px 20px;}
+  .btn[disabled]{opacity:.55;cursor:default;}
   .hint{font-size:13px;color:var(--ink-3);line-height:1.7;}
   .hint code{font-family:var(--mono);font-size:12px;background:var(--paper-2);padding:2px 6px;border-radius:2px;}
   .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
@@ -83,10 +93,19 @@
     </div>
   </div>
 
-  <div class="pin" id="pin" hidden>
-    <input type="password" id="key" placeholder="访问口令" autocomplete="current-password">
-    <button class="btn" id="enter">进入</button>
-    <span class="hint">口令在 Vercel 项目的 <code>STATS_KEY</code> 环境变量里。</span>
+  <div class="gate" id="gate" hidden>
+    <div class="gate-card">
+      <span class="tagline">restricted</span>
+      <h2>输入访问口令</h2>
+      <p>这一页只给你自己看。口令是 Vercel 项目里那个 <code>STATS_KEY</code> 的值。</p>
+      <form id="gateForm" autocomplete="on">
+        <input type="password" id="key" name="key" placeholder="访问口令" autocomplete="current-password"
+               inputmode="numeric" spellcheck="false">
+        <button class="btn" id="enter" type="submit">进入</button>
+      </form>
+      <p class="gate-err" id="gateErr" hidden></p>
+      <p class="gate-tip">输对一次就记住了，以后打开这页直接进。换设备要重新输。</p>
+    </div>
   </div>
 
   <div id="msg"></div>
@@ -129,7 +148,21 @@
 
   var $ = function (s) { return document.querySelector(s); };
 
-  function key() { return sessionStorage.getItem(KEY) || ''; }
+  /* 口令记在 localStorage，输一次以后直接进；早先存在 sessionStorage 里的也认 */
+  function key() {
+    var v = '';
+    try { v = localStorage.getItem(KEY) || ''; } catch (e) {}
+    if (!v) { try { v = sessionStorage.getItem(KEY) || ''; } catch (e) {} }
+    return v;
+  }
+  function saveKey(v) {
+    try { localStorage.setItem(KEY, v); } catch (e) {}
+    try { sessionStorage.setItem(KEY, v); } catch (e) {}
+  }
+  function dropKey() {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+  }
 
   function fmtTime(t) {
     var d = new Date(t);
@@ -213,19 +246,37 @@
       (timed.length ? ' · 今日平均停留 ' + fmtDur(avg) : '');
   }
 
+  function showGate(err) {
+    $('#gate').hidden = false;
+    $('#panel').hidden = true;
+    $('#gateErr').hidden = !err;
+    if (err) $('#gateErr').textContent = err;
+    var b = $('#enter');
+    b.disabled = false;
+    b.textContent = '进入';
+    setTimeout(function () { try { $('#key').focus(); } catch (e) {} }, 80);
+  }
+
+  function hideGate() {
+    $('#gate').hidden = true;
+    $('#panel').hidden = false;
+  }
+
   function load() {
-    if (!key()) { $('#pin').hidden = false; $('#panel').hidden = true; return; }
+    if (!key()) { showGate(''); return; }
+    var b = $('#enter');
+    b.disabled = true;
+    b.textContent = '验证中';
     fetch('/api/stats?limit=600', { headers: { 'x-stats-key': key() }, cache: 'no-store' })
       .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
       .then(function (o) {
         if (o.s === 401) {
-          sessionStorage.removeItem(KEY);
-          $('#pin').hidden = false;
-          $('#panel').hidden = true;
-          showMsg('<div class="err"><b>口令不对。</b>重新输入一次。</div>');
+          dropKey();
+          showGate('口令不对，重新输入一次。');
           return;
         }
         if (o.s === 503) {
+          $('#gate').hidden = true;
           $('#panel').hidden = true;
           if (o.j.error === 'key_not_configured') {
             showMsg('<div class="err"><b>还没设访问口令。</b>去 Vercel 项目设置里加一个环境变量 ' +
@@ -239,26 +290,25 @@
           }
           return;
         }
-        if (!o.j.ok) { showMsg('<div class="err"><b>读取失败。</b>' + (o.j.error || '未知错误') + '</div>'); return; }
+        if (!o.j.ok) { showGate('读取失败：' + (o.j.error || '未知错误')); return; }
         showMsg('');
-        $('#pin').hidden = true;
-        $('#panel').hidden = false;
+        hideGate();
         all = o.j.visits || [];
         total = o.j.total || 0;
         render();
       })
-      .catch(function () { showMsg('<div class="err"><b>网络或接口异常。</b>稍后点刷新再试。</div>'); });
+      .catch(function () { showGate('连不上接口，检查网络后再试。'); });
   }
 
-  $('#enter').addEventListener('click', function () {
+  /* 口令框用表单提交，回车和点按钮都走同一条路 */
+  $('#gateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
     var v = $('#key').value.trim();
-    if (!v) return;
-    sessionStorage.setItem(KEY, v);
+    if (!v) { showGate('先输入口令。'); return; }
+    saveKey(v);
     load();
   });
-  $('#key').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('#enter').click(); });
-
-  $('#reload').addEventListener('click', load);
+  $('#reload').addEventListener('click', function () { $('#reload').textContent = '刷新'; load(); });
 
   function setFilter(f, el) {
     filter = f;
@@ -269,6 +319,15 @@
   $('#fAll').addEventListener('click', function () { setFilter('all', this); });
   $('#fToday').addEventListener('click', function () { setFilter('today', this); });
   $('#f7').addEventListener('click', function () { setFilter('7', this); });
+
+  /* 支持 admin.html?k=口令 直接打开，口令存下后从地址栏抹掉 */
+  try {
+    var qk = new URLSearchParams(location.search).get('k');
+    if (qk) {
+      saveKey(qk.trim());
+      history.replaceState(null, '', location.pathname);
+    }
+  } catch (e) {}
 
   load();
   timer = setInterval(function () { if (key() && !document.hidden) load(); }, 30000);
